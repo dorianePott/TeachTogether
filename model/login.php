@@ -4,8 +4,6 @@
  * @version 1.0 (2020/05/26)
  * model page
  */
-session_start();
-require_once 'model/crud_user.php';
 
 $msg = '';
 
@@ -15,12 +13,17 @@ $btn   = filter_input(INPUT_POST, 'btnSubmit', FILTER_SANITIZE_STRING);
 
 if ($btn == 'login') {
     $user = (read_user_by_email($email) == FALSE ? array() : read_user_by_email($email)[0]);
-    var_dump($user);
-    if ($user != array()) {
+    
+    if (isset($user['Id_User'])) {
+
         $salt = $user['Txt_Password_Salt'];
         if (sha1($pwd . $salt) != $user['Txt_Password_Hash']) {
             $msg = 'email or wrong password.';
-        } else {
+        }
+        else if ($user['Is_Active'] == 0){
+            $msg = 'please wait until your account is validate by an admin';
+        }
+         else {
             // get perm
             $role = get_user_role($user['Id_User']);
             // save session
@@ -28,7 +31,7 @@ if ($btn == 'login') {
             $_SESSION['role'] = $role;
             $_SESSION['logged'] = TRUE;
 
-            header('Location: ?action=profil');
+            header('Location: ?action=profile');
             exit();
         }
     } else {

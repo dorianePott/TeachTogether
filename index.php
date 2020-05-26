@@ -10,7 +10,7 @@ session_start();
 
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
 
-$role = ( (isset($_SESSION) || $_SESSION != array()) ? ( ($_SESSION['role'] != NULL) ? $_SESSION['role'] : 'anonyme') : 'anonyme');
+$role = (isset($_SESSION['role']) ? $_SESSION['role'][0] : array('Cd_Role' => 'anonyme'));
 
 /**
  * Returns the data' key
@@ -25,15 +25,15 @@ function get_key($v, $array){
         }
     }
 }
+
 $permissions = permissions_by_role();
 
-if (!in_array($action . '-view', $permissions[$role])) {
-    $action = 'default';
+if (!in_array($action.'-view', $permissions[$role['Cd_Role']])) {
+    $action = 'home';
 }
 
 try {
-    require './controller/' . str_replace('-view', '', $permissions[$role][get_key($action .'-view', $permissions[$role])] ) . '.php';
-
+    require './controller/' . str_replace('-view', '', $permissions[$role['Cd_Role']][get_key($action .'-view', $permissions[$role['Cd_Role']])] ) . '.php';
 } catch (Exception $e) {
     throw $e;
 }

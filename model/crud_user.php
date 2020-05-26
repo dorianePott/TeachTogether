@@ -20,7 +20,7 @@ require_once 'database.php';
   *
   * @return int the inserted row ID
   */
- function create($first, $last, $email, $hash, $salt, $role = 'user') {
+ function create_user($first, $last, $email, $hash, $salt, $role = 'user') {
     try {
         $bind = array(
             ':first' => $first,
@@ -47,8 +47,25 @@ require_once 'database.php';
  /**
   * 
   */
- function read_all() {
+ function read_all_user() {
 
+ }
+
+ /**
+  * Returns all unactivate user account
+  * @return array unactivate user account
+  */
+ function read_user_unactivate(){
+    try {
+        $query = 'SELECT * FROM `Tbl_User` WHERE `Is_Active` = 0';
+        $db = connect();
+        $query = $db->prepare($query);
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return FALSE;
+    }
  }
 
  /**
@@ -116,7 +133,8 @@ require_once 'database.php';
  }
 
  /**
-  * 
+  * Returns all permissions
+  * @return array all record from Tbl_Permission
   */
  function read_all_permission() {
     try {
@@ -134,12 +152,37 @@ require_once 'database.php';
  #endregion
 
  #region Update
+
+ /**
+  * Active a user
+  * @param int id
+  */
+ function active_user($id) {
+    try {
+        $bind = array(
+            ":id" =>  $id
+        );
+        $query = 'UPDATE `TeachTogether`.`Tbl_User` SET `Is_Active` = "1" WHERE (`Id_User` = :id);';   
+        $db = connect();
+        $query = $db->prepare($query);
+        $query->execute($bind);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return FALSE;
+    }
+ }
+
  #endregion
 
  #region Delete
  #endregion
 
  #region Display
+
+ /**
+  * 
+  */
  function permissions_by_role(){
     $permission = read_all_permission();
     $result = array();
@@ -159,5 +202,44 @@ require_once 'database.php';
         }
     }
     return $result;
+ }
+
+ /**
+  * 
+  */
+ function display_user_unactive() {
+     $out = '';
+     $nb_col = 0;
+     $count = 0;
+     $users = read_user_unactivate();
+     $out .= '<table class="table"><thead class="thead-light"><tr>';
+     // cross the different column to get there name to display them later
+    foreach ($users as $col) {
+        foreach ($col as $key => $value) {
+          $out .= '<th scope="col">'.$key.'</th>';
+          $nb_col++;
+        }
+      }
+
+      $out .= '<th>Activate</th></tr></thead>';
+
+     foreach ($users as $record) {
+         $out .= '<tr>';
+         foreach ($record as $key => $value) {
+             if ($key == 'Id_User') {
+                 $id = $value;
+             }
+             $out .= sprintf('<td id="%s">%s</td>', $id, $value);
+             if ($count == $nb_col - 1) {
+                 $out .= sprintf('<td><a href="?action=manage-user"><button type="button" class="btn btn-outline-secondary" value="activate-%d" name="do">Activate</button></a></td>', $id);
+                 $count = 0;
+             } else {
+                 $count++;
+             }
+         }
+         $out .= '</tr>';
+     }
+     $out .= '</table>';
+     return $out;
  }
  #endregion

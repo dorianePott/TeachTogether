@@ -7,8 +7,26 @@ echo <<<NAV
             <li class="nav-item ml-5">
                 <a class="nav-link" href="?action=index"><img class="colorWhite mr-1" src="assets/img/home.svg" height="20em"/>Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item ml-5">
-                <a class="nav-link" href="?action=login"><img class="colorWhite mr-1" src="assets/img/login.svg" height="20em"/>Login</a>
-            </li>
-</nav>
 NAV;
+if (in_array('logout-view', $permissions[$role['Cd_Role']])) {
+    echo <<<LOGOUT
+    <li class="nav-item ml-5">
+        <a class="nav-link" href="./model/logout.php">Logout</a>
+    </li>
+LOGOUT;
+} else {
+    echo <<<LOGIN
+    <li class="nav-item ml-5">
+        <a class="nav-link" href="?action=register"><img class="colorWhite mr-1" src="assets/img/home.svg" height="20em"/>Register</a>
+    </li>
+    <li class="nav-item ml-5">
+        <a class="nav-link" href="?action=login"><img class="colorWhite mr-1" src="assets/img/home.svg" height="20em"/>Login</a>
+    </li>
+LOGIN;
+}
+echo <<<END
+</ul>
+    </div>
+</nav>
+END;
+?>

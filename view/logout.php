@@ -6,6 +6,7 @@
     <title>logout</title>
 </head>
 <body>
-    text
+    <p>Congratulation, logout completed</p>
+    <a href="?action=home">return home</a>
 </body>
 </html>
