@@ -1,0 +1,16 @@
+nav li{
+    transition: background-color 0.5s;
+    padding: 6px;
+}
+
+nav li:hover{
+    background-color: rgba(10, 43, 109, 0.3);
+}
+
+body {
+    background-color: #E8E7EB !important;
+}
+
+.colorB{
+    background-color: #2851A3 !important;
+}

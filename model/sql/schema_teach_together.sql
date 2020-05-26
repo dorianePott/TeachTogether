@@ -6,6 +6,8 @@ CREATE SCHEMA IF NOT EXISTS `TeachTogether` DEFAULT CHARACTER SET utf8 ;
 USE `TeachTogether`;
 
 CREATE USER IF NOT EXISTS 'teacher'@'localhost' IDENTIFIED BY 'Super';
+GRANT ALL PRIVILEGES ON `TeachTogether`.* TO 'teacher'@'localhost';
+FLUSH PRIVILEGES;
 
 CREATE TABLE IF NOT EXISTS `TeachTogether`.`Tbl_Education` (
 `Id_Education` INT(11) NOT NULL AUTO_INCREMENT,

@@ -1,10 +1,13 @@
-<?php
-/**
- * @author Doriane Pott
- * @version 1.0 (2020-05-25)
- * connection credentials
- */
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'TeachTogether');
-define('DB_USER', 'teacher');
-define('DB_PASS', 'Super');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+</head>
+<body>
+<?php require_once 'nav.php'; ?>
+    text
+</body>
+</html>

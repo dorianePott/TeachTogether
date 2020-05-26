@@ -5,5 +5,5 @@
  * @author Pott Doriane
  * @version 1.0 (2020/05/26)
  */
-require_once "model/login.php";
-require_once "view/login.php";
+require_once "model/landing.php";
+require_once "view/landing.php";
