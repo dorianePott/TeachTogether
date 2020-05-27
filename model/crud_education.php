@@ -36,10 +36,29 @@
  #endregion
 
  #region Read
+ /**
+  * @return array all record
+  * @return false if error
+  */
+ function read_all_education() {
+    try {
+        $query = 'SELECT * FROM `Tbl_Education`';
+        $db = connect();
+        $query = $db->prepare($query);
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return FALSE;
+    }
+ }
  #endregion
 
- #region Delete
- #endregion
-
- #region Display
+ #region Update
+ /**
+  * 
+  */
+ function update_education($id, $name, $link) {
+     //
+ }
  #endregion

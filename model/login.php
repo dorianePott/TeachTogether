@@ -25,10 +25,11 @@ if ($btn == 'login') {
         }
          else {
             // get perm
-            $role = get_user_role($user['Id_User']);
+            $perm = read_user_perm($user['Id_User']);
+            var_dump($perm);
             // save session
             $_SESSION['email'] = $email;
-            $_SESSION['role'] = $role;
+            $_SESSION['permissions'] = $perm;
             $_SESSION['logged'] = TRUE;
 
             header('Location: ?action=profile');

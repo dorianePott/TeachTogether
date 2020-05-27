@@ -9,8 +9,9 @@
     <link rel="stylesheet" href="assets/css/bootstrap.css">
 </head>
 <body>
+    managment
     <form method='post' role="form" action="?action=manage-user" enctype="multipart/form-data">
-        <?= (in_array('manage-user-view', $permissions[$role['Cd_Role']])) ? display_user_unactive() : '' ?>
+        <?= display_table(read_user_unactivate(), false, false, true) ?>
     </form>
 </body>
 </html>

@@ -48,7 +48,16 @@ require_once 'database.php';
   * 
   */
  function read_all_user() {
-
+    try {
+        $query = 'SELECT * FROM `Tbl_User`';
+        $db = connect();
+        $query = $db->prepare($query);
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return FALSE;
+    }
  }
 
  /**
@@ -133,6 +142,33 @@ require_once 'database.php';
  }
 
  /**
+  * 
+  */
+ function read_anonyme_perm() {
+    try {
+        $query = 'SELECT `Cd_Permission` FROM `Tbl_Permission` WHERE `Cd_Role` = "anonyme";';
+        $db = connect();
+        $query = $db->prepare($query);
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return FALSE;
+    }
+ }
+
+ function get_anonyme_perm(){
+     $perm = read_anonyme_perm();
+     $out = array("Cd_Permission" => []);
+     foreach ($perm as $record) {
+         foreach ($record as $key => $value) {
+             array_push($out['Cd_Permission'], $value);
+         }
+     }
+     return $out;
+ }
+
+ /**
   * Returns all permissions
   * @return array all record from Tbl_Permission
   */
@@ -178,65 +214,3 @@ require_once 'database.php';
  #region Delete
  #endregion
 
- #region Display
-
- /**
-  * Will display all permissions by role
-  * @return string displaying text
-  */
- function permissions_by_role(){
-    $permission = read_all_permission();
-    $out = array();
-    $roles = array();
-    foreach ($permission as $record) {
-        foreach ($record as $key => $value) {
-            if($key == 'Cd_Permission') {
-                $tmp = $value;
-            }
-            if($key == 'Cd_Role') {
-                if (!isset($out[$value]) || $out[$value] == NULL) {
-                    $out[$value] = [$tmp];
-                }
-                array_push($out[$value], $tmp);
-            }
-    
-        }
-    }
-    return $out;
- }
-
- /**
-  * @return string displaying text
-  * @version 1.0.1 -> button type=submit
-  */
- function display_user_unactive() {
-     $out = '';
-     $nb_col = 0;
-     $count = 0;
-     $users = read_user_unactivate();
-     $out .= '<table class="table"><thead class="thead-light"><tr>';
-     // cross the different column to get there name to display them later
-    foreach ($users as $col) {
-        foreach ($col as $key => $value) {
-          $out .= '<th scope="col">'.$key.'</th>';
-          $nb_col++;
-        }
-      }
-
-      $out .= '<th>Activate</th></tr></thead>';
-
-     foreach ($users as $record) {
-         $out .= '<tr>';
-         foreach ($record as $key => $value) {
-             if ($key == 'Id_User') {
-                 $id = $value;
-                 $out .= sprintf('<td><button type="submit" class="btn btn-outline-secondary" value="activate-%d" name="do">Activate</button></td>', $id);
-             }
-             $out .= sprintf('<td id="%s">%s</td>', $id, $value);
-         }
-         $out .= '</tr>';
-     }
-     $out .= '</table>';
-     return $out;
- }
- #endregion

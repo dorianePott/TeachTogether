@@ -7,33 +7,45 @@
 require_once 'model/crud_user.php';
 
 session_start();
-
+#region Init
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
-
-$role = (isset($_SESSION['role']) ? $_SESSION['role'][0] : array('Cd_Role' => 'anonyme'));
-
-/**
- * Returns the data' key
- * @param string value to search
- * @param array searching place
- * @return string key from specified element
- */
-function get_key($v, $array){
-    foreach ($array as $key => $value) {
-        if ($value == $v) {
-            return $key;
-        }
+$permissions = array();
+if (isset($_SESSION['permissions'])) {
+    $perm = $_SESSION['permissions'];
+} else {
+    $perm = get_anonyme_perm();
+}
+foreach ($perm as $p) {
+    foreach ($p as $key => $value) {
+        $permissions[] = $value;
     }
 }
-
-$all_permissions = permissions_by_role();
-
-if (!in_array($action.'-view', $all_permissions[$role['Cd_Role']])) {
+#endregion
+/**
+ * check if value in multi-dimensional array 2 : [][]
+ * @param string element
+ * @param array array
+ */
+function in_multi_array($element, $array){
+    foreach ($array as $key => $value) {
+        if ($value == $element) {
+            return true;
+        }
+    }
+    return false;
+}
+// invalid permission
+if (!in_multi_array($action.'-view', $permissions)) {
+    if (in_multi_array($action, $permissions)) {
+        if (strpos($action, 'manage') == 0) {
+            require_once 'controller/' . $action . '.php';
+        }
+    }
     $action = 'home';
 }
-
+//view action
 try {
-    require './controller/' . str_replace('-view', '', $all_permissions[$role['Cd_Role']][get_key($action .'-view', $all_permissions[$role['Cd_Role']])] ) . '.php';
+    require_once 'controller/' . $action . '.php';
 } catch (Exception $e) {
     throw $e;
 }
