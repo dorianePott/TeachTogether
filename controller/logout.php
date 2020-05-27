@@ -6,5 +6,5 @@
  * @version 1.0 (2020/05/26)
  */
 require_once 'model/logout.php';
-require_once 'view/logout.php';
 require_once 'view/nav.php';
+require_once 'view/logout.php';

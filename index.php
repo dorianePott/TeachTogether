@@ -26,14 +26,14 @@ function get_key($v, $array){
     }
 }
 
-$permissions = permissions_by_role();
+$all_permissions = permissions_by_role();
 
-if (!in_array($action.'-view', $permissions[$role['Cd_Role']])) {
+if (!in_array($action.'-view', $all_permissions[$role['Cd_Role']])) {
     $action = 'home';
 }
 
 try {
-    require './controller/' . str_replace('-view', '', $permissions[$role['Cd_Role']][get_key($action .'-view', $permissions[$role['Cd_Role']])] ) . '.php';
+    require './controller/' . str_replace('-view', '', $all_permissions[$role['Cd_Role']][get_key($action .'-view', $all_permissions[$role['Cd_Role']])] ) . '.php';
 } catch (Exception $e) {
     throw $e;
 }

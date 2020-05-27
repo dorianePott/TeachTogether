@@ -181,11 +181,12 @@ require_once 'database.php';
  #region Display
 
  /**
-  * 
+  * Will display all permissions by role
+  * @return string displaying text
   */
  function permissions_by_role(){
     $permission = read_all_permission();
-    $result = array();
+    $out = array();
     $roles = array();
     foreach ($permission as $record) {
         foreach ($record as $key => $value) {
@@ -193,19 +194,20 @@ require_once 'database.php';
                 $tmp = $value;
             }
             if($key == 'Cd_Role') {
-                if (!isset($result[$value]) || $result[$value] == NULL) {
-                    $result[$value] = [$tmp];
+                if (!isset($out[$value]) || $out[$value] == NULL) {
+                    $out[$value] = [$tmp];
                 }
-                array_push($result[$value], $tmp);
+                array_push($out[$value], $tmp);
             }
     
         }
     }
-    return $result;
+    return $out;
  }
 
  /**
-  * 
+  * @return string displaying text
+  * @version 1.0.1 -> button type=submit
   */
  function display_user_unactive() {
      $out = '';
@@ -228,14 +230,9 @@ require_once 'database.php';
          foreach ($record as $key => $value) {
              if ($key == 'Id_User') {
                  $id = $value;
+                 $out .= sprintf('<td><button type="submit" class="btn btn-outline-secondary" value="activate-%d" name="do">Activate</button></td>', $id);
              }
              $out .= sprintf('<td id="%s">%s</td>', $id, $value);
-             if ($count == $nb_col - 1) {
-                 $out .= sprintf('<td><a href="?action=manage-user"><button type="button" class="btn btn-outline-secondary" value="activate-%d" name="do">Activate</button></a></td>', $id);
-                 $count = 0;
-             } else {
-                 $count++;
-             }
          }
          $out .= '</tr>';
      }

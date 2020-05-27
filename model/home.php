@@ -5,7 +5,9 @@
  * model page
  */
 
+ /**
+  * Will display all user's lessons
+  */
  function display_lesson(){
      $display = '';
-
  }
