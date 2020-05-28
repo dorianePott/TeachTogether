@@ -74,6 +74,51 @@
         return FALSE;
     }
  }
+ 
+ /**
+  * 
+  */
+ function read_own_resources_by_module($module, $id) {
+    try {
+        $bind = array(
+            ':fk' => $module,
+            ':id' => $id
+        );
+        $query = 'SELECT * FROM `Tbl_Resource` WHERE `Id_Module` = :fk AND `Id_User_Owner` = :id;';
+        $db = connect();
+        $query = $db->prepare($query);
+        $query->execute($bind);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return FALSE;
+    }
+ }
+
+ 
+ function read_resources_by_education($education, $owner, $own = false) {
+    $modules = read_module_by_education($education);
+    $id = array();
+    $resources = [];
+    foreach ($modules as $record) {
+        foreach ($record as $key => $value) {
+            if ($key == 'Id_Module') {
+                $id[] = $value;
+            }
+        }
+    }
+    foreach ($id as $value) {
+        if ($own == true) {
+            if (read_own_resources_by_module($value, $owner) != array()) {
+                $resources[] = read_own_resources_by_module($value, $owner)[0];
+            }
+        } else {
+            $resources[] = read_resource_by_module($value)[0];
+        }
+    }
+    return ($resources);
+}
+
  #endregion
 
  #region Update

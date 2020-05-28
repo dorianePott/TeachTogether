@@ -10,5 +10,7 @@
  $do = filter_input(INPUT_POST, 'do', FILTER_SANITIZE_STRING);
  //
  $education = read_user_by_email($_SESSION['email'])[0]['Id_Education'];
+ $id = read_user_by_email($_SESSION['email'])[0]['Id_User'];
 
- var_dump($module);
+ $resources = (read_resources_by_education($education, $id));
+ $own = (read_resources_by_education($education, $id, true));

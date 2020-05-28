@@ -9,21 +9,20 @@
     <link rel="stylesheet" href="assets/css/bootstrap.css">
 </head>
 <body>
-    profile
+    <h1>Profile</h1>
     <nav style="float:left;border:1px black;">
-    read resources
-    <?= display_table(read_resource_by_module($module))?>
+        <?= display_nav($resources)?>
     </nav>
     <nav style="float:right;border:1px red;">
     own resources
-    
-    <a>add resource</a>
-    <form method="post" action="?action=profile">
-        <input type="text" name="name"/>
-        <input type="text" name="desc"/>
-        <input type="file" name="upload[]">
-        <button type="submit" name="do" value="create">Create</button>
-    </form>
+        <?= display_nav($own)?>
+        <h2>add resource</h2>
+        <form method="post" action="?action=profile">
+            <input type="text" name="name"/>
+            <input type="text" name="desc"/>
+            <input type="file" name="upload[]"/>
+            <button type="submit" name="do" value="create">Create</button>
+        </form>
     </nav>
 </body>
 </html>
