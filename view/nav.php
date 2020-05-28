@@ -20,6 +20,9 @@ if (in_multi_array('logout-view', $permissions)) {
     <li class="nav-item ml-5">
         <a class="nav-link" href="model/logout.php">Logout</a>
     </li>
+    <li class="nav-item ml-5">
+        <a class="nav-link" href="?action=profile">Profile</a>
+    </li>
 USER;
     #endregion
     #region admin nav

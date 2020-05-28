@@ -13,17 +13,18 @@
   * @return int last id
   * @return false if error
   */
- function create_resource($name, $link = '/'){
+ function create_resource($name, $desc, $owner, $module ){
     try {
-        if ($link == '/') {
-            $link = $name .'/';
-        }
+        $date = date("Y-m-d H:i:s");
         $bind = array(
             ':name' => $name,
-            ':link' => $link
+            ':date' => $date,
+            ':desc' => $desc,
+            ':owner' => $owner,
+            ':module' => $module
         );
-        $query = 'INSERT INTO `Tbl_Education`(`Nm_Education`, `Txt_Education_Link`)
-        VALUES (:name, :link);';
+        $query = 'INSERT INTO `Tbl_Resource`(`Dttm_Creation`, `Dttm_Last_Update`, `Nm_Resource`, `Txt_Description`, `Id_User_Owner`, `Id_Module`)
+        VALUES (:date, :date, :name, :desc, :owner, :module);';
         $db = connect();
         $query = $db->prepare($query);
         $query->execute($bind);
@@ -42,10 +43,31 @@
   */
  function read_all_resource() {
     try {
-        $query = 'SELECT * FROM `Tbl_Education`';
+        $query = 'SELECT * FROM `Tbl_Resource`';
         $db = connect();
         $query = $db->prepare($query);
         $query->execute();
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return FALSE;
+    }
+ }
+
+ /**
+  * @param int fk from Tbl_Module
+  * @return array record
+  * @return false if error
+  */
+ function read_resource_by_module($module) {
+    try {
+        $bind = array(
+            ':fk' => $module
+        );
+        $query = 'SELECT * FROM `Tbl_Resource` WHERE `Id_Module` = :fk';
+        $db = connect();
+        $query = $db->prepare($query);
+        $query->execute($bind);
         return $query->fetchAll(PDO::FETCH_ASSOC);
     } catch (Exception $e) {
         echo $e->getMessage();

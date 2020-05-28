@@ -9,13 +9,18 @@
     managment
     <form action="?action=manage-module" method="post">
     <?php
-    echo <<<FORM
-    <input name="code" value="$code"/>
-    <input name="name" value="$name"/>
-    <input name="education" value="$education"/>
+    if ($id != NULL) {
+        echo <<<FORM
+        <input name="code" value="$code"/>
+        <input name="name" value="$name"/>
 FORM;
+        echo display_select(read_all_education());
+        echo '<button name="submit" value="update" type="submit">Update</button>';
+    }
     ?>
-    <?= display_table(read_all_module(), true); ?>
+    </form>
+    <form method="post" action="?action=manage-module">
+        <?= display_table(read_all_module(), true); ?>
     </form>
 </body>
 </html>

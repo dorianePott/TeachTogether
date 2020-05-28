@@ -10,5 +10,20 @@
 </head>
 <body>
     profile
+    <nav style="float:left;border:1px black;">
+    read resources
+    <?= display_table(read_resource_by_module($module))?>
+    </nav>
+    <nav style="float:right;border:1px red;">
+    own resources
+    
+    <a>add resource</a>
+    <form method="post" action="?action=profile">
+        <input type="text" name="name"/>
+        <input type="text" name="desc"/>
+        <input type="file" name="upload[]">
+        <button type="submit" name="do" value="create">Create</button>
+    </form>
+    </nav>
 </body>
 </html>

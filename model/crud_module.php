@@ -49,18 +49,112 @@
         return FALSE;
     }
  }
+
+ /**
+  * @param int id
+  * @return array record
+  * @return false if error
+  */
+ function read_module_by_id($id){
+    try {
+        $bind = array(
+            ':id' => $id
+        );
+        $query = 'SELECT * FROM `Tbl_Module` WHERE `Id_Module` = :id';
+        $db = connect();
+        $query = $db->prepare($query);
+        $query->execute($bind);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return FALSE;
+    }
+ }
+
+ /**
+  * 
+  */
+ function read_module_by_education($fk) {
+    try {
+        $bind = array(
+            ':fk' => $fk
+        );
+        $query = 'SELECT * FROM `Tbl_Module` WHERE `Id_Education` = :fk';
+        $db = connect();
+        $query = $db->prepare($query);
+        $query->execute($bind);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return FALSE;
+    }
+ }
+ 
+ /**
+  * @return array all record
+  * @return false if error
+  */
+ function read_all_education() {
+    try {
+        $query = 'SELECT * FROM `Tbl_Education`';
+        $db = connect();
+        $query = $db->prepare($query);
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return FALSE;
+    }
+ }
+
+ /**
+  * @param string name
+  * @return array record
+  * @return false if error
+  */
+ function read_education_by_name($name) {
+    try {
+        $bind = array(
+            ':name' => $name
+        );
+        $query = 'SELECT * FROM `Tbl_Education` WHERE `Nm_Education` = :name';
+        $db = connect();
+        $query = $db->prepare($query);
+        $query->execute($bind);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return FALSE;
+    }
+ }
+ 
  #endregion
 
  #region Update
  /**
-  * 
+  * @param int id
+  * @param string code
+  * @param string name
+  * @param int fk
+  * @return bool false if error
   */
- function update_module($id) {
-     try {
-         //code...
-     } catch (\Throwable $th) {
-         //throw $th;
-     }
+ function update_module($id, $code, $name, $fk) {
+    try {
+        $bind = array(
+            ':name' => $name,
+            ':id' => $id,
+            ':code' => $code,
+            ':fk' => $fk
+        );
+        $query = 'UPDATE `TeachTogether`.`Tbl_Module` SET `Cd_Module` = :code, `Nm_Module` = :name, `Id_Education` = :fk WHERE (`Id_Module` = :id);';
+        $db = connect();
+        $query = $db->prepare($query);
+        $query->execute($bind);
+        return TRUE;
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return FALSE;
+    }
  }
  #endregion
 
