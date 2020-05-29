@@ -161,9 +161,3 @@
  #region Delete
  #endregion
 
- #region Display
- function display_modules(){
-     $data = read_all_module();
-     $out = '';
- }
- #endregion

@@ -7,6 +7,7 @@
  */
 require_once 'model/crud_resource.php';
 require_once 'model/crud_module.php';
+require_once 'model/manage-resource.php';
 require_once 'model/profile.php';
 require_once 'model/function.php';
 require_once 'view/nav.php';

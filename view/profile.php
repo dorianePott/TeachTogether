@@ -10,17 +10,18 @@
 </head>
 <body>
     <h1>Profile</h1>
-    <nav style="float:left;border:1px black;">
+    <nav style="float:left;border:1px black;background-color:red;">
         <?= display_nav($resources)?>
     </nav>
-    <nav style="float:right;border:1px red;">
+    <nav style="float:right;border:1px red;background-color:lightblue;">
     own resources
         <?= display_nav($own)?>
         <h2>add resource</h2>
         <form method="post" action="?action=profile">
             <input type="text" name="name"/>
             <input type="text" name="desc"/>
-            <input type="file" name="upload[]"/>
+            <?= display_select(read_module_by_education($education))?>
+            <input type="file" name="upload[]" accept="images/*"/>
             <button type="submit" name="do" value="create">Create</button>
         </form>
     </nav>
