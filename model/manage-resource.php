@@ -11,7 +11,7 @@
  function check_size($files) {
      $total = 0;
      foreach ($files as $key => $value) {
-         if ($values > MAX_FILE_SIZE) {
+         if ($value > MAX_FILE_SIZE) {
              return FALSE;
          } else {
              $total += $value;
@@ -23,14 +23,6 @@
      return TRUE;
  }
 
- function check_name($name, $dir) {
-    $name = str_replace(' ', '', $name);
-    $name = strtr($name, ACCENT, CORRECT_ACCENT);
-    $inc = 1;
-    $tmp = $name;
-    while (file_exists($dir . $tmp)) {
-        $tmp = explode('.', $name)[0] . $inc . '.' . explode('.', $name)[1];
-        $inc++;
-    }
-    return $tmp;
+ function generate_name($name) {
+    return md5($name . uniqid() . date('Y-m-d H:i:s')).".".explode('.', $name)[1];
  }

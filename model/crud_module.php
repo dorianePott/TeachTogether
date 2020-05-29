@@ -2,6 +2,7 @@
 /**
  * @author Pott Doriane
  * @version 1.0 (2020/05/27)
+ * @todo update_education() { }
  */
 
  #region Create
@@ -21,6 +22,35 @@
         );
         $query = 'INSERT INTO `Tbl_Module`(`Cd_Module`, `Nm_Module`, `Txt_Module_Link`, `Id_Education`)
         VALUES (:code, :name, :link, :fk);';
+        $db = connect();
+        $query = $db->prepare($query);
+        $query->execute($bind);
+        return $db->lastInsertId();
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return FALSE;
+    }
+ }
+
+ 
+ /**
+  * Create a brand new education
+  * @param string name
+  * @param string link
+  * @return int last id
+  * @return false if error
+  */
+ function create_education($name, $link = '/'){
+    try {
+        if ($link == '/') {
+            $link = $name .'/';
+        }
+        $bind = array(
+            ':name' => $name,
+            ':link' => $link
+        );
+        $query = 'INSERT INTO `Tbl_Education`(`Nm_Education`, `Txt_Education_Link`)
+        VALUES (:name, :link);';
         $db = connect();
         $query = $db->prepare($query);
         $query->execute($bind);
@@ -61,6 +91,22 @@
             ':id' => $id
         );
         $query = 'SELECT * FROM `Tbl_Module` WHERE `Id_Module` = :id';
+        $db = connect();
+        $query = $db->prepare($query);
+        $query->execute($bind);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return FALSE;
+    }
+ }
+
+ function read_module_by_code($code) {
+    try {
+        $bind = array(
+            ':code' => $code
+        );
+        $query = 'SELECT * FROM `Tbl_Module` WHERE `Cd_Module` = :code';
         $db = connect();
         $query = $db->prepare($query);
         $query->execute($bind);
@@ -156,6 +202,9 @@
         return FALSE;
     }
  }
+ /**
+  * @todo update_education(){ }
+  */
  #endregion
 
  #region Delete

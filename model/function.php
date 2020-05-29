@@ -1,6 +1,6 @@
 <?php
 
-function display_table($table, $has_update = false, $has_activation = false, $has_delete = false){
+function display_table($table, $idx, $has_update = false, $has_activation = false, $has_delete = false){
     if ($table == NULL) {
       return false;
     }
@@ -29,7 +29,7 @@ function display_table($table, $has_update = false, $has_activation = false, $ha
     foreach ($table['data'] as $record) {
       foreach ($record as $key => $value) {
         // check if index and add index at the <td>
-        if (strpos(strtolower($key), 'id') !== false) {
+        if (stripos($key, $idx) !== false) {
           $id = $value;
         }
         $out .= sprintf('<td id="%s">%s</td>', $id, $value);

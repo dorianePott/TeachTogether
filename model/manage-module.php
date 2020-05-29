@@ -16,6 +16,7 @@
      //verify is exists, and use data from db
      if (read_module_by_id($id) !== false) {
       $btn = filter_input(INPUT_POST, 'submit', FILTER_SANITIZE_STRING);
+      var_dump($id);
       $code = read_module_by_id($id)[0]['Cd_Module'];
       $name = read_module_by_id($id)[0]['Nm_Module'];
       $education = read_module_by_id($id)[0]['Id_Education'];

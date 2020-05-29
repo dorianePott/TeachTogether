@@ -20,7 +20,7 @@ FORM;
     ?>
     </form>
     <form method="post" action="?action=manage-module">
-        <?= display_table(read_all_module(), true); ?>
+        <?= display_table(read_all_module(), 'Id_Module', true); ?>
     </form>
 </body>
 </html>

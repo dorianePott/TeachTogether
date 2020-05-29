@@ -8,6 +8,6 @@
 <body>
     resource
     
-    <?= display_table(read_all_resource(), true); ?>
+    <?= display_table(read_all_resource(), 'Id_Resource', true); ?>
 </body>
 </html>

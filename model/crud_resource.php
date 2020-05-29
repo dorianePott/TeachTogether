@@ -157,12 +157,11 @@
         VALUES (:size, :type, :name, :date, :path, :fk)";
         $db = connect();
         $query = $db->prepare($query);
-        $data = array(":comment" => $comment, ":date" => $date, ":name" => $name, ":fk"=>$fk);
         $query->execute($bind);
         return $db->lastInsertId();
     } catch (Exception $e) {
         $e->getMessage();
-        return FALSE;
+        return $e->getMessage();
     }
  }
  #endregion

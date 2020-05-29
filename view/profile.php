@@ -17,11 +17,11 @@
     own resources
         <?= display_nav($own)?>
         <h2>add resource</h2>
-        <form method="post" action="?action=profile">
+        <form method="post" action="?action=profile" enctype="multipart/form-data">
             <input type="text" name="name"/>
             <input type="text" name="desc"/>
-            <?= display_select(read_module_by_education($education))?>
-            <input type="file" name="upload[]" accept="images/*"/>
+            <?= display_select(read_module_by_education($education)) ?>
+            <input type="file" name="upload[]" multiple accept="image/*,video/*,audio/*,.pdf,.doc,.docx"/>
             <button type="submit" name="do" value="create">Create</button>
         </form>
     </nav>
