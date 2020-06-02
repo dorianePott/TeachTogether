@@ -10,20 +10,22 @@
 </head>
 <body>
     <h1>Profile</h1>
-    <nav style="float:left;border:1px black;background-color:red;">
-        <?= display_nav($resources)?>
+    <nav class="card" style="float:left;border:1px solid black;">
+        <?= display_nav($resources, 'Id_Resource')?>
     </nav>
-    <nav style="float:right;border:1px red;background-color:lightblue;">
+    <nav class="card" style="float:right;border:1px solid red;">
     own resources
-        <?= display_nav($own)?>
-        <h2>add resource</h2>
+        <?= display_nav($own, 'Id_Resource', true, false, true)?>
+        </div><div class="card-body">
+        <h5 class="card-title">add resource</h5>
         <form method="post" action="?action=profile" enctype="multipart/form-data">
-            <input type="text" name="name"/>
-            <input type="text" name="desc"/>
+            <input id="resource-name" type="text" name="name" placeholder="Name" value="<?=$name?>"/>
+            <input id="resource-desc" type="text" name="desc" placeholder="Description" value="<?=$desc?>"/>
             <?= display_select(read_module_by_education($education)) ?>
-            <input type="file" name="upload[]" multiple accept="image/*,video/*,audio/*,.pdf,.doc,.docx"/>
-            <button type="submit" name="do" value="create">Create</button>
+            <input type="file" name="upload[]" multiple/>
+            <button class="btn btn-outline-info" type="submit" name="do" value="create">Create</button>
         </form>
+        </div>
     </nav>
 </body>
 </html>

@@ -113,10 +113,21 @@
     foreach ($id as $value) {
         if ($own == true) {
             if (read_own_resources_by_module($value, $owner) != array()) {
-                $resources[] = read_own_resources_by_module($value, $owner)[0];
+                $values = read_own_resources_by_module($value, $owner);
+                foreach ($values as $record) {
+                    $resources[] = $record;
+                }
             }
         } else {
-            $resources[] = read_resource_by_module($value)[0];
+            $records = read_resource_by_module($value);
+            foreach ($records as $record) {
+                if (read_attachment_by_fk($record['Id_Resource']) != array()) {
+                    $record['media'] = read_attachment_by_fk($record['Id_Resource']);
+                } else {
+                    $record['media'] = array();
+                }
+                $resources[] = $record;
+            }
         }
     }
     return ($resources);
@@ -226,8 +237,8 @@
  /**
   * @param int foreign key
   * @return bool false if error
-  */
-  function delete_attachment_by_fk($fk) {
+   */
+ function delete_attachment_by_fk($fk) {
     try {
         $bind = array(
             ':fk' => $fk

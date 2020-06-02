@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * 
+ */
 function display_table($table, $idx, $has_update = false, $has_activation = false, $has_delete = false){
     if ($table == NULL) {
       return false;
@@ -50,6 +53,9 @@ function display_table($table, $idx, $has_update = false, $has_activation = fals
     return $out;
 }
 
+/**
+ * 
+ */
 function display_select($table) {
   if ($table == NULL) {
     return false;
@@ -80,7 +86,10 @@ function display_select($table) {
   }
 }
 
-function display_nav($table, $has_update = false, $has_activation = false, $has_delete = false) {
+/**
+ * 
+ */
+function display_nav($table, $idx, $has_update = false, $has_activation = false, $has_delete = false) {
   if ($table == NULL) {
     return false;
   }
@@ -92,29 +101,61 @@ function display_nav($table, $has_update = false, $has_activation = false, $has_
   $id = 0; // actual index
   $fields_name[] = $table['column'];  // contains the schema's columns
 
-  $out .= '<table class="table">';
+  $out .= '<div class="card">';
+  $attachments = array();
+
+  $nb_col = count($fields_name[0]);
   #region data
   foreach ($table['data'] as $record) {
+    if (isset($record['media'])) {
+      if ($record['media'] != array()) {
+        $attachments = $record['media'];
+      }
+    }
     foreach ($record as $key => $value) {
-      // check if index and add index at the <td>
-      if (strpos(strtolower($key), 'id') != false) {
+      // check if index and save it
+      if (stripos($key, $idx) != false) {
         $id = $value;
-      } else if (stripos(strtolower($key), 'id') === false && stripos(strtolower($key), 'creation') === false) {
-        $out .= sprintf('<td id="%s">%s</td>', $id, $value);
+        $out .= '<div class="card-body">';
+      } else if (stripos($key, 'Nm_Resource') != false) {
+        $out .= sprintf('<h5 class="card-title">%s</p>', $value);
+      }
+      // if it's not the id col
+      else if (stripos(strtolower($key), 'id') === false && stripos(strtolower($key), 'creation') === false  && strpos(strtolower($key), 'media') === false) {
+        $out .= sprintf('<p class="card-text" id="%s">%s</p>', $id, $value);
       }
       // at the final column, will display option of deletion and update
       if ($count == $nb_col - 1) {
-          $out .= sprintf(($has_delete) ? '<td><button type="submit" class="btn btn-outline-secondary" value="delete-%d" name="do">Delete</button></td>' : '', $id) 
-          . sprintf(($has_update) ? '<td><button type="submit" class="btn btn-outline-secondary" value="update-%d" name="do">Update</button></td>' : '', $id)
-          . sprintf(($has_activation) ? '<td><button type="submit" class="btn btn-outline-secondary" value="activate-%d" name="do">Activate</button></td>' : '', $id);
+          $out .= ($has_delete == true) ? sprintf('<button type="submit" class="btn btn-outline-secondary" value="delete-%d" name="do">Delete</button>', $id) : ''; 
+          $out .= ($has_update) ? sprintf('<button type="submit" class="btn btn-outline-secondary" value="update-%d" name="do">Update</button>', $id) : '';
+          $out .= ($has_activation) ? sprintf('<button type="submit" class="btn btn-outline-secondary" value="activate-%d" name="do">Activate</button>', $id) : '';
+          $out .= '</div>';
           $count = 0;
       } else {
         $count++;
       }
     }
-    $out .= '</tr>';
+    if ($attachments != array()) {
+      foreach ($attachments as $media) {
+        $file = $media['Nm_File'];
+        $name = $media['Nm_Attachment'];
+        $mime = $media['Cd_Mime_Type'];
+        $size = $media['Nb_Bytes'];
+
+        $out .='<a class="card-link" href="?action=file&do=read&file='. $file 
+        . '&name=' . $name . '&mime=' . $mime . '&size=' . $size . '">
+          <img src="assets/img/file.svg" height="20"/>' . $name . '</a>';
+        
+          $out .='<a class="card-link" href="?action=file&do=download&file='. $file 
+        . '&name=' . $name . '&mime=' . $mime . '&size=' . $size . '">
+          <img src="assets/img/download.svg" height="20"/>' . $name . '</a>';
+  
+      }
+    }
+    $attachments = array();
+    $out .= '</div>';
   }
   #endregion
-  $out .= '</table>';
+  $out .= '</div>';
   return $out;
 }

@@ -1,13 +1,13 @@
 <?php
 /**
+ * @author Doriane Pott
+ * @version 1.0 (2020-06-02)
  * controller page
  * class I.FA P3A
- * @author Pott Doriane
- * @version 1.0 (2020/05/26)
  */
 require_once 'model/crud_module.php';
 require_once 'model/crud_resource.php';
 require_once 'model/function.php';
-require_once 'model/home.php';
+require_once 'model/file.php';
 require_once 'view/nav.php';
-require_once 'view/home.php';
+require_once 'view/file.php';
