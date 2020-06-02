@@ -174,6 +174,26 @@
     }
  }
  
+ /**
+  * @param int id
+  * @return array record
+  * @return false if error
+  */
+  function read_education_by_id($id) {
+    try {
+        $bind = array(
+            ':id' => $id
+        );
+        $query = 'SELECT * FROM `Tbl_Education` WHERE `Id_Education` = :id';
+        $db = connect();
+        $query = $db->prepare($query);
+        $query->execute($bind);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return FALSE;
+    }
+ }
  #endregion
 
  #region Update

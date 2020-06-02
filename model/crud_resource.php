@@ -46,11 +46,52 @@
   */
  function read_all_resource() {
     try {
+        $resources = array();
         $query = 'SELECT * FROM `Tbl_Resource`';
         $db = connect();
         $query = $db->prepare($query);
         $query->execute();
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+        $records = $query->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($records as $record) {
+            if (read_attachment_by_fk($record['Id_Resource']) != array()) {
+                $record['media'] = read_attachment_by_fk($record['Id_Resource']);
+            } else {
+                $record['media'] = array();
+            }
+            $resources[] = $record;
+        }
+        return $resources;
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return FALSE;
+    }
+ }
+
+ /**
+  * get all informations linked to the specified resource
+  * @param int resource's id
+  * @return array all data
+  */
+ function read_resource_by_id($id) {
+    try {
+        $bind = array(
+            ':id' => $id
+        );
+        $resources = array();
+        $query = 'SELECT * FROM `Tbl_Resource` WHERE `Id_Resource` = :id';
+        $db = connect();
+        $query = $db->prepare($query);
+        $query->execute($bind);
+        $records = $query->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($records as $record) {
+            if (read_attachment_by_fk($id) != array()) {
+                $record['media'] = read_attachment_by_fk($id);
+            } else {
+                $record['media'] = array();
+            }
+            $resources[] = $record;
+        }
+        return ($resources);
     } catch (Exception $e) {
         echo $e->getMessage();
         return FALSE;
@@ -98,7 +139,9 @@
     }
  }
 
- 
+ /**
+  * 
+  */
  function read_resources_by_education($education, $owner, $own = false) {
     $modules = read_module_by_education($education);
     $id = array();
@@ -136,11 +179,65 @@
  
 
  #region Update
+
  /**
-  * 
+  * update a resource
+  * @param int resource's id
+  * @param string resource's name
+  * @param string resource's link
+  * @return bool false if error
   */
- function update_resource($id, $name, $link) {
-     //
+ function update_resource($id, $name, $desc, $fk) {
+    try {
+        $bind = array(
+            ':name' => $name,
+            ':id' => $id,
+            ':desc' => $desc,
+            ':fk' => $fk
+        );
+        $query = 'UPDATE `TeachTogether`.`Tbl_Resource` 
+        SET `Txt_Description` = :desc, `Nm_Resource` = :name, `Id_Module` = :fk WHERE (`Id_Resource` = :id);';
+        $db = connect();
+        $query = $db->prepare($query);
+        $query->execute($bind);
+        return TRUE;
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return FALSE;
+    }
+ }
+
+ #endregion
+
+ #region Delete
+ /**
+  * Delete the resource, and all the attachments link to it
+  * @param int resource's id
+  * @return bool false if error
+  */
+ function delete_resource($id_resource) {
+     try {
+         // read resource
+        $record = read_resource_by_id($id_resource)[0];
+        $media = $record['media'];
+        // if resource has media, del media
+        if ($media != array()) {
+            delete_attachment_by_fk($id_resource);
+        }
+
+        //delete resource
+        $bind = array(
+            ':id' => $id_resource
+        );
+        $query = "DELETE FROM `Tbl_Resource` WHERE `Id_Resource` = :id";
+        $db = connect();
+        $query = $db->prepare($query);
+        $query->execute($bind);
+        return TRUE;
+    } catch(Exception $e){
+        $e->getMessage();
+        return FALSE;
+    }
  }
  #endregion
 
@@ -152,8 +249,8 @@
 
  /**
   * function to add a media
-   */
-  function create_attachment($nbBytes, $cdMime, $nameDisplay, $path, $fk){
+  */
+ function create_attachment($nbBytes, $cdMime, $nameDisplay, $path, $fk){
     try {
         $date = date("Y-m-d H:i:s");
         $bind = array(
@@ -254,6 +351,25 @@
     }
  }
 
+ /**
+  * @param int attachment's id
+  * @return bool false if error
+   */
+  function delete_attachment_by_id($id) {
+    try {
+        $bind = array(
+            ':id' => $id
+        );
+        $query = "DELETE FROM `Tbl_Attachment` WHERE `Id_Attachment` = :id";
+        $db = connect();
+        $query = $db->prepare($query);
+        $query->execute($bind);
+        return TRUE;
+    } catch(Exception $e){
+        $e->getMessage();
+        return FALSE;
+    }
+ }
  #endregion
 
  #endregion

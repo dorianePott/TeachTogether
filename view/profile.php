@@ -14,18 +14,18 @@
         <?= display_nav($resources, 'Id_Resource')?>
     </nav>
     <nav class="card" style="float:right;border:1px solid red;">
-    own resources
-        <?= display_nav($own, 'Id_Resource', true, false, true)?>
-        </div><div class="card-body">
-        <h5 class="card-title">add resource</h5>
+        <h3 class="card-title"> Your resources </h3>
         <form method="post" action="?action=profile" enctype="multipart/form-data">
+            <?= display_nav($own, 'Id_Resource', true, false, true)?>
+            <div class="card-body">
+            <h5 class="card-title">add resource</h5>
             <input id="resource-name" type="text" name="name" placeholder="Name" value="<?=$name?>"/>
             <input id="resource-desc" type="text" name="desc" placeholder="Description" value="<?=$desc?>"/>
             <?= display_select(read_module_by_education($education)) ?>
             <input type="file" name="upload[]" multiple/>
             <button class="btn btn-outline-info" type="submit" name="do" value="create">Create</button>
-        </form>
-        </div>
+            </div>
+    </form>
     </nav>
 </body>
 </html>

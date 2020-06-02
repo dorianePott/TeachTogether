@@ -7,7 +7,8 @@
 </head>
 <body>
     resource
-    
-    <?= display_table(read_all_resource(), 'Id_Resource', true); ?>
+    <form method="post" action="?action=manage-resource">
+        <?= display_nav(read_all_resource(), 'Id_Resource', true, false, true); ?>
+    </form>
 </body>
 </html>

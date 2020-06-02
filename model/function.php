@@ -1,5 +1,32 @@
 <?php
 
+
+define('DEFAULT_DIR', 'storage/');
+define('MAX_FILE_SIZE', 4194304);  //4MB
+define('MAX_RESOURCE_SIZE', 73400320); //70MB
+define('ACCENT', 'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ');
+define('CORRECT_ACCENT', 'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
+
+function check_size($files) {
+    $total = 0;
+    foreach ($files as $key => $value) {
+        if ($value > MAX_FILE_SIZE) {
+            return FALSE;
+        } else {
+            $total += $value;
+        }
+    }
+    if ($total > MAX_RESOURCE_SIZE) {
+        return FALSE;
+    }
+    return TRUE;
+}
+
+function generate_name($name) {
+   return md5($name . uniqid() . date('Y-m-d H:i:s')).".".explode('.', $name)[1];
+}
+
+
 /**
  * 
  */
@@ -56,7 +83,7 @@ function display_table($table, $idx, $has_update = false, $has_activation = fals
 /**
  * 
  */
-function display_select($table) {
+function display_select($table, $idx = NULL) {
   if ($table == NULL) {
     return false;
   }
@@ -74,8 +101,12 @@ function display_select($table) {
         foreach ($table['data'] as $record) {
           foreach ($record as $key => $value) {
             if (strpos(strtolower($key), 'id') === false && $key == $col_key) {
-              $out .= sprintf('<option class=\'dropdown-item\' value="%s">%s', $value, $value);
-            }
+              if (stripos($value, $idx) !== false) {
+                $out .= sprintf('<option class=\'dropdown-item\' value="%s" selected="selected">%s', $value, $value);
+              } else {
+                 $out .= sprintf('<option class=\'dropdown-item\' value="%s">%s', $value, $value);
+              }
+            } 
           }
           $out .= '</option>';
         }
@@ -114,10 +145,10 @@ function display_nav($table, $idx, $has_update = false, $has_activation = false,
     }
     foreach ($record as $key => $value) {
       // check if index and save it
-      if (stripos($key, $idx) != false) {
+      if (stripos($key, $idx) !== false) {
         $id = $value;
         $out .= '<div class="card-body">';
-      } else if (stripos($key, 'Nm_Resource') != false) {
+      } else if (stripos($key, 'Nm_Resource') !== false) {
         $out .= sprintf('<h5 class="card-title">%s</p>', $value);
       }
       // if it's not the id col
@@ -126,10 +157,9 @@ function display_nav($table, $idx, $has_update = false, $has_activation = false,
       }
       // at the final column, will display option of deletion and update
       if ($count == $nb_col - 1) {
-          $out .= ($has_delete == true) ? sprintf('<button type="submit" class="btn btn-outline-secondary" value="delete-%d" name="do">Delete</button>', $id) : ''; 
+          $out .= ($has_delete) ? sprintf('<button type="submit" class="btn btn-outline-secondary" value="delete-%d" name="do">Delete</button>', $id) : ''; 
           $out .= ($has_update) ? sprintf('<button type="submit" class="btn btn-outline-secondary" value="update-%d" name="do">Update</button>', $id) : '';
           $out .= ($has_activation) ? sprintf('<button type="submit" class="btn btn-outline-secondary" value="activate-%d" name="do">Activate</button>', $id) : '';
-          $out .= '</div>';
           $count = 0;
       } else {
         $count++;
@@ -142,14 +172,13 @@ function display_nav($table, $idx, $has_update = false, $has_activation = false,
         $mime = $media['Cd_Mime_Type'];
         $size = $media['Nb_Bytes'];
 
-        $out .='<a class="card-link" href="?action=file&do=read&file='. $file 
+        $out .='<p><a class="card-link" href="?action=file&do=read&file='. $file 
         . '&name=' . $name . '&mime=' . $mime . '&size=' . $size . '">
           <img src="assets/img/file.svg" height="20"/>' . $name . '</a>';
         
           $out .='<a class="card-link" href="?action=file&do=download&file='. $file 
         . '&name=' . $name . '&mime=' . $mime . '&size=' . $size . '">
-          <img src="assets/img/download.svg" height="20"/>' . $name . '</a>';
-  
+          <img src="assets/img/download.svg" height="20"/>' . $name . '</a></p>';
       }
     }
     $attachments = array();

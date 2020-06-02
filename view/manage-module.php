@@ -14,7 +14,7 @@
         <input name="code" value="$code"/>
         <input name="name" value="$name"/>
 FORM;
-        echo display_select(read_all_education());
+        echo display_select(read_all_education(), $education);
         echo '<button name="submit" value="update" type="submit">Update</button>';
     }
     ?>

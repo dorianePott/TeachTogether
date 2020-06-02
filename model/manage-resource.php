@@ -1,28 +1,22 @@
 <?php
 /**
- * 
+ * @author Doriane Pott
+ * @version 1.1 (2020-06-02) -> managing logic here
  */
+ $do = '';
+ $do = filter_input(INPUT_POST, 'do', FILTER_SANITIZE_STRING);
 
- define('MAX_FILE_SIZE', 4194304);  //4MB
- define('MAX_RESOURCE_SIZE', 73400320); //70MB
- define('ACCENT', 'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ');
- define('CORRECT_ACCENT', 'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
 
- function check_size($files) {
-     $total = 0;
-     foreach ($files as $key => $value) {
-         if ($value > MAX_FILE_SIZE) {
-             return FALSE;
-         } else {
-             $total += $value;
-         }
-     }
-     if ($total > MAX_RESOURCE_SIZE) {
-         return FALSE;
-     }
-     return TRUE;
- }
-
- function generate_name($name) {
-    return md5($name . uniqid() . date('Y-m-d H:i:s')).".".explode('.', $name)[1];
+ if (stripos($do, 'update') !== false) {
+    $id = explode('-', $do);
+    $id = $id[1];
+    $_SESSION['to_update'] = $id;
+    header('Location: ?action=update');
+    exit();
+}
+ else if (stripos($do, 'delete') !== false) {
+    $id = explode('-', $do);
+    $id = $id[1];
+    //delete the resource
+    delete_resource($id);
  }
