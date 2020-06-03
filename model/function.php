@@ -1,34 +1,59 @@
 <?php
 
-
+#region const
 define('DEFAULT_DIR', 'storage/');
-define('MAX_FILE_SIZE', 4194304);  //4MB
+define('MAX_FILE_SIZE', 5242880);  //5MB
 define('MAX_RESOURCE_SIZE', 73400320); //70MB
 define('ACCENT', 'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ');
 define('CORRECT_ACCENT', 'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
+#endregion
 
-function check_size($files) {
+/**
+ * will check the size of all file
+ * @param array files
+ * @return bool false if error in file's size
+ */
+function check_size($files, $array = true) {
     $total = 0;
-    foreach ($files as $key => $value) {
-        if ($value > MAX_FILE_SIZE) {
-            return FALSE;
-        } else {
-            $total += $value;
-        }
-    }
-    if ($total > MAX_RESOURCE_SIZE) {
+    var_dump($files);
+    if ($array == true) {
+      foreach ($files as $key => $value) {
+          if ($value > MAX_FILE_SIZE) {
+              return FALSE;
+          } else {
+              $total += $value;
+          }
+      }
+      if ($total > MAX_RESOURCE_SIZE) {
+          return FALSE;
+      }
+      return TRUE;
+    } else {
+      if ($files > MAX_FILE_SIZE) {
         return FALSE;
+      } else {
+        return TRUE;
+      }
     }
-    return TRUE;
 }
 
+/**
+ * will generate a unique name
+ * @param string actual name of the resource
+ * @return string a brand new name
+ */
 function generate_name($name) {
    return md5($name . uniqid() . date('Y-m-d H:i:s')).".".explode('.', $name)[1];
 }
 
-
 /**
- * 
+ * function that will display the table as an html table
+ * @param array table's data
+ * @param string index
+ * @param bool has the possibility to update
+ * @param bool has the possibility to activate things
+ * @param bool has the possibility to delete record
+ * @return string html table
  */
 function display_table($table, $idx, $has_update = false, $has_activation = false, $has_delete = false){
     if ($table == NULL) {
@@ -81,7 +106,10 @@ function display_table($table, $idx, $has_update = false, $has_activation = fals
 }
 
 /**
- * 
+ * function that will display table's data as a select
+ * @param array table's data
+ * @param string table's index
+ * @return string html select with table's data
  */
 function display_select($table, $idx = NULL) {
   if ($table == NULL) {
@@ -118,7 +146,13 @@ function display_select($table, $idx = NULL) {
 }
 
 /**
- * 
+ * function that will transform table's data as an html nav
+ * @param array table's data
+ * @param string table's index
+ * @param bool true if user has the possibility to update data
+ * @param bool true if user has the possibility to activate something
+ * @param bool true if user has the possibility to delete data
+ * @return string table's data in html nav
  */
 function display_nav($table, $idx, $has_update = false, $has_activation = false, $has_delete = false) {
   if ($table == NULL) {

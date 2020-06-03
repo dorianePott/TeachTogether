@@ -28,6 +28,7 @@
          $education = read_education_by_name($education)[0]['Id_Education'];
          if ($code != '' && $name != '' && $education != NULL) {
             update_module($id, $code, $name, $education);
+            $_SESSION['update'] = NULL;
          }
       }
    }

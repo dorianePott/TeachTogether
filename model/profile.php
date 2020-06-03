@@ -16,7 +16,7 @@
 
 
  if ($do == 'create') {
-     # code... name desc upload[]
+     #name desc upload[]
      $date = date("Y-m-d H:i:s");
      $desc = filter_input(INPUT_POST, 'desc', FILTER_SANITIZE_STRING);
      $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
@@ -25,6 +25,7 @@
      $module = read_module_by_code($module)[0]['Id_Module'];
      $id_resource = create_resource($name.'___'.$date, $desc, $owner, $module);
      #region file
+     if (isset($_FILES['upload'])) {
         if(check_size($_FILES['upload']['size']) == TRUE && $count_files > 0){
             $files = array();
             $files = $_FILES['upload'];
@@ -49,6 +50,7 @@
                 }
             }
         }
+     }
      #endregion
  }
  else if (stripos($do, 'update') !== false) {

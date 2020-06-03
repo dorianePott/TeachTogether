@@ -10,6 +10,7 @@
 </head>
 <body>
     <h1>Profile</h1>
+    <h1>Lessons : </h1>
     <nav class="card" style="float:left;border:1px solid black;">
         <?= display_nav($resources, 'Id_Resource')?>
     </nav>

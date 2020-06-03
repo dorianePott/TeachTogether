@@ -1,31 +1,36 @@
 <?php
 
-function nav(){
-}
-
 // nav for all
 echo <<<NAV
 <nav class="navbar navbar-expand-md navbar-dark colorB sticky-top">
-<a class="navbar-brand" href="?action=home"><img src="assets/img/logo.svg" height="40em" class="colorWhite ml-md-2 ml-sm-1"/></a>
+<a class="navbar-brand" href="?action=home"><img src="" height="40em" class="colorWhite ml-md-2 ml-sm-1 img-circle"/></a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
+        <li class="nav-item ml-5">
+            <a class="nav-link" href="?action=index"><img class="colorWhite mr-1" src="assets/img/home.svg" height="20em"/>Home <span class="sr-only">(current)</span></a>
+        </li>
 NAV;
-
+#region user nav
 if (in_multi_array('logout-view', $permissions)) {
-    #region user nav
+    $avatar = ($_SESSION['avatar'] != '' ) ? $_SESSION['avatar'] : 'assets/img/user.svg';
     echo <<<USER
-    <li class="nav-item ml-5">
-        <a class="nav-link" href="?action=index"><img class="colorWhite mr-1" src="assets/img/home.svg" height="20em"/>Home <span class="sr-only">(current)</span></a>
-    </li>
     <li class="nav-item ml-5">
         <a class="nav-link" href="model/logout.php">Logout</a>
     </li>
     <li class="nav-item ml-5">
-        <a class="nav-link" href="?action=profile">Profile</a>
+        <a class="nav-link" href="?action=profile"><img src="$avatar" height="40em" class="img-circle"/></a>
     </li>
 USER;
-    #endregion
-    #region admin nav
+if (in_multi_array('settings-view', $permissions)) {
+    echo <<<SETTINGS
+    <li class="nav-item ml-5">
+        <a class="nav-link" href="?action=settings"><img class="colorWhite mr-1" height="20em"/>Settings</a>
+    </li>
+SETTINGS;
+}
+#endregion
+
+#region admin nav
     if (in_multi_array('manage-module', $permissions)) {
         echo <<<MODULE
     <li class="nav-item ml-5">
@@ -59,7 +64,7 @@ MODULE;
 }
     #endregion
 } else {
-    #region anonyme nav
+#region anonyme nav
     echo <<<ANONYME
     <li class="nav-item ml-5">
         <a class="nav-link" href="?action=register"><img class="colorWhite mr-1" src="assets/img/home.svg" height="20em"/>Register</a>
@@ -70,9 +75,11 @@ MODULE;
 ANONYME;
     #endregion
 }
+
 echo <<<END
 </ul>
     </div>
 </nav>
 END;
+
 ?>

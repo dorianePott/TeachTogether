@@ -26,11 +26,11 @@ if ($btn == 'login') {
          else {
             // get perm
             $perm = read_user_perm($user['Id_User']);
-            var_dump($perm);
             // save session
             $_SESSION['email'] = $email;
             $_SESSION['permissions'] = $perm;
             $_SESSION['logged'] = TRUE;
+            $_SESSION['avatar'] = $user['Nm_File_Profile_Picture'];
 
             header('Location: ?action=profile');
             exit();

@@ -20,18 +20,20 @@ require_once 'database.php';
   *
   * @return int the inserted row ID
   */
- function create_user($first, $last, $email, $hash, $salt, $role = 'user') {
+ function create_user($first, $last, $email, $hash, $salt, $education, $role = 'user') {
     try {
+        var_dump($role);
         $bind = array(
             ':first' => $first,
             ':last'  => $last,
             ':email' => $email,
             ':hash'  => $hash,
             ':salt'  => $salt,
+            ':education' => $education,
             ':role'  => $role
         );
-        $query = 'INSERT INTO `Tbl_User`(`Nm_First`, `Nm_Last`, `Txt_Email`, `Txt_Password_Hash`, `Txt_Password_Salt`, `Cd_Role`)
-        VALUES (:first, :last, :email, :hash, :salt, :role);';
+        $query = 'INSERT INTO `Tbl_User`(`Nm_First`, `Nm_Last`, `Txt_Email`, `Txt_Password_Hash`, `Txt_Password_Salt`, `Id_Education`, `Cd_Role`)
+        VALUES (:first, :last, :email, :hash, :salt, :education, :role);';
         $db = connect();
         $query = $db->prepare($query);
         $query->execute($bind);
@@ -190,8 +192,9 @@ require_once 'database.php';
  #region Update
 
  /**
-  * Active a user
+  * Activate a user
   * @param int id
+  * @return bool false if error
   */
  function active_user($id) {
     try {
@@ -202,15 +205,96 @@ require_once 'database.php';
         $db = connect();
         $query = $db->prepare($query);
         $query->execute($bind);
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+        return TRUE;
     } catch (Exception $e) {
         echo $e->getMessage();
         return FALSE;
     }
  }
 
+ /**
+  * Deactivate a user
+  * @param int id
+  * @return bool false if error
+  */
+ function deactivate_user($id) {
+    try {
+        $bind = array(
+            ":id" =>  $id
+        );
+        $query = 'UPDATE `TeachTogether`.`Tbl_User` SET `Is_Active` = "0" WHERE (`Id_User` = :id);';   
+        $db = connect();
+        $query = $db->prepare($query);
+        $query->execute($bind);
+        return TRUE;
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return FALSE;
+    }
+ }
+
+ /**
+  * update a user
+  * @param int user's id
+  * @param string user's first name
+  * @param string user's last name
+  * @param string user's email
+  * @param string path of user's avatar
+  * @return bool false if error
+  */
+ function update_user_no_pwd($pwd, $first, $last, $email, $pic) {
+    try {
+        $bind = array(
+            ":pwd" =>  $pwd,
+            ':first' => $first,
+            ':last' => $last,
+            ':email' => $email,
+            ':path' => $pic
+        );
+        $query = 'UPDATE `TeachTogether`.`Tbl_User`
+        SET `Nm_First` = :first, `Nm_Last` = :last, `Txt_Email` = :email, `Nm_File_Profile_Picture` = :path WHERE (`Txt_Password_Hash` = :pwd);';   
+        $db = connect();
+        $query = $db->prepare($query);
+        $query->execute($bind);
+        return TRUE;
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return FALSE;
+    }
+ }
+
+ /**
+  * update a user
+  * @param int user's id
+  * @param string user's first name
+  * @param string user's last name
+  * @param string user's email
+  * @param string path of user's avatar
+  * @return bool false if error
+  */
+ function update_user($pwd, $first, $last, $email, $pic, $newpwd) {
+    try {
+        $bind = array(
+            ':first' => $first,
+            ':last' => $last,
+            ':email' => $email,
+            ':path' => $pic,
+            ':pwd' => $pwd,
+            ':newpwd' => $newpwd
+        );
+        $query = 'UPDATE `TeachTogether`.`Tbl_User`
+        SET `Nm_First` = :first, `Nm_Last` = :last, `Txt_Email` = :email, `Nm_File_Profile_Picture` = :path, `Txt_Password_Hash` = :newpwd WHERE (`Txt_Password_Hash` = :pwd);';   
+        $db = connect();
+        $query = $db->prepare($query);
+        $query->execute($bind);
+        return TRUE;
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return FALSE;
+    }
+ }
+ 
  #endregion
 
  #region Delete
  #endregion
-

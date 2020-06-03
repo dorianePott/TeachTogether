@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Manage Module</title>
 </head>
 <body>
-    managment
     <form action="?action=manage-module" method="post">
     <?php
     if ($id != NULL) {
