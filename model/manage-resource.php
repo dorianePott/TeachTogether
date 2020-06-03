@@ -2,6 +2,7 @@
 /**
  * @author Doriane Pott
  * @version 1.1 (2020-06-02) -> managing logic here
+ * management page for resources
  */
  $do = '';
  $do = filter_input(INPUT_POST, 'do', FILTER_SANITIZE_STRING);

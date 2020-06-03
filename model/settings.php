@@ -1,6 +1,8 @@
 <?php
 /**
- * 
+ * @author Doriane Pott
+ * @version 1.0 (2020-06-03)
+ * permit the user to update his profile in this page
  */
 
  $user = read_user_by_email($_SESSION['email'])[0];

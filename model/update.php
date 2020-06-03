@@ -1,6 +1,9 @@
 <?php
 /**
- * 
+ * @author Doriane Pott
+ * @version 1.0 (2020-06-03)
+ * page to update resources
+ * @todo verify also here that the user need to have the permission, to update it, in case of force the url
  */
  $id = $_SESSION['to_update'];
  $do = filter_input(INPUT_POST, 'do', FILTER_SANITIZE_STRING);
@@ -67,7 +70,3 @@
     header("Location: ?action=update");
     exit();
  }
-
-
-
- //delete attachments

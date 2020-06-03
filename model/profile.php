@@ -2,7 +2,8 @@
 /**
  * @author Doriane Pott
  * @version 1.0.1 (2020/06/02) : can add multiple files, problem with move_uploaded_files solved
- * model page
+ * profile model page, will do the process with user's input, when his trying to add or update a resource,
+ * and store the db's data for the display
  */
 
  $do = '';
@@ -51,7 +52,8 @@
         }
      }
      #endregion
- }
+     header('Location: ?action=profile');
+}
  else if (stripos($do, 'update') !== false) {
      $id = explode('-', $do);
      $id = $id[1];

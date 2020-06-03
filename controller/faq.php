@@ -6,5 +6,6 @@
  * @version 1.0 (2020/06/03)
  */
 require_once 'view/nav.php';
+require_once 'view/footer.php';
 require_once 'model/function.php';
 require_once 'view/faq.php';

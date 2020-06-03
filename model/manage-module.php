@@ -1,7 +1,8 @@
 <?php
 /**
  * @author Doriane Pott
- * @version 1.0.0 (2020-06-02) -> trying to make the select sticky
+ * @version 1.0.0
+ * Management page for modules
  */
  $code = '';
  $name = '';

@@ -8,4 +8,5 @@
 require_once 'model/login.php';
 require_once 'model/crud_user.php';
 require_once 'view/nav.php';
+require_once 'view/footer.php';
 require_once 'view/login.php';

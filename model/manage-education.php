@@ -2,6 +2,7 @@
 /**
  * @author Doriane Pott
  * @version 1.0 (2020/05/27)
+ * management page for educations
  */
 
  $name = filter_input(INPUT_POST, 'education', FILTER_SANITIZE_STRING);

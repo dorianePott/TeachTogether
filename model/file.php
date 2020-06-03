@@ -1,6 +1,6 @@
 <?php
 #region init
-$do = filter_input(INPUT_GET, 'do', FILTER_SANITIZE_STRING);
+$do   = filter_input(INPUT_GET, 'do', FILTER_SANITIZE_STRING);
 $file = filter_input(INPUT_GET, 'file', FILTER_SANITIZE_STRING);
 $mime = filter_input(INPUT_GET, 'mime', FILTER_SANITIZE_STRING);
 $name = filter_input(INPUT_GET, 'name', FILTER_SANITIZE_STRING);
@@ -12,7 +12,7 @@ $path = 'storage/';
 if ($do == 'download') {
     //make sure the fil exists before doing anything!!
     if (file_exists($path.$file)) {
-        header('Prgame: public');   //required
+        header('Pragma: public');   //required
         header('Expires: 0');   // no expiration date
         // no cache
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');

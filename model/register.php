@@ -2,7 +2,7 @@
 /**
  * @author Doriane Pott
  * @version 1.0 (2020/05/26)
- * model page
+ * registration logic here
  */
 require_once 'model/crud_user.php';
 #region Init

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- FAQ's badge, serves as user manuel -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">

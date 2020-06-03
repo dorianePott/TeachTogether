@@ -10,4 +10,4 @@ require_once 'model/crud_resource.php';
 require_once 'model/function.php';
 require_once 'model/file.php';
 require_once 'view/nav.php';
-require_once 'view/file.php';
+require_once 'view/footer.php';
