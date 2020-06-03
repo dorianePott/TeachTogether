@@ -15,7 +15,6 @@ define('CORRECT_ACCENT', 'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy')
  */
 function check_size($files, $array = true) {
     $total = 0;
-    var_dump($files);
     if ($array == true) {
       foreach ($files as $key => $value) {
           if ($value > MAX_FILE_SIZE) {
@@ -87,12 +86,18 @@ function display_table($table, $idx, $has_update = false, $has_activation = fals
         if (stripos($key, $idx) !== false) {
           $id = $value;
         }
+        if (stripos($key, 'Is_Deleted') !== false) {
+          if ($value == 1) {
+            $out .= sprintf(($has_activation) ? '<td><button type="submit" class="btn btn-outline-secondary" value="activate-%d" name="do">Activate</button></td>' : '', $id);
+          } else {
+            $out .= sprintf(($has_activation) ? '<td><button type="submit" class="btn btn-outline-secondary" value="deactivate-%d" name="do">Deactivate</button></td>' : '', $id);
+          }
+        }
         $out .= sprintf('<td id="%s">%s</td>', $id, $value);
         // at the final column, will display option of deletion and update
         if ($count == $nb_col - 1) {
             $out .= sprintf(($has_delete) ? '<td><button type="submit" class="btn btn-outline-secondary" value="delete-%d" name="do">Delete</button></td>' : '', $id) 
-            . sprintf(($has_update) ? '<td><button type="submit" class="btn btn-outline-secondary" value="update-%d" name="do">Update</button></td>' : '', $id)
-            . sprintf(($has_activation) ? '<td><button type="submit" class="btn btn-outline-secondary" value="activate-%d" name="do">Activate</button></td>' : '', $id);
+            . sprintf(($has_update) ? '<td><button type="submit" class="btn btn-outline-secondary" value="update-%d" name="do">Update</button></td>' : '', $id);
             $count = 0;
         } else {
           $count++;
@@ -124,15 +129,15 @@ function display_select($table, $idx = NULL) {
   foreach ($fields_name as $col) {
     foreach ($col as $col_key => $col_value) {
       if (strpos(strtolower($col_key), 'id') === false) {
-        $out .= sprintf('<select class=\'btn dropdown-toggle btn-outline-info\' data-toggle="dropdown" id=\'%s\' name=\'%s\'><div class=\'dropdown-menu\'>', $col_key, $col_key);
+        $out .= sprintf('<select class="custom-select" data-toggle="dropdown" id=\'%s\' name=\'%s\'><div class=\'dropdown-menu\'>', $col_key, $col_key);
         // table data
         foreach ($table['data'] as $record) {
           foreach ($record as $key => $value) {
             if (strpos(strtolower($key), 'id') === false && $key == $col_key) {
               if (stripos($value, $idx) !== false) {
-                $out .= sprintf('<option class=\'dropdown-item\' value="%s" selected="selected">%s', $value, $value);
+                $out .= sprintf('<option value="%s" selected="selected">%s', $value, $value);
               } else {
-                 $out .= sprintf('<option class=\'dropdown-item\' value="%s">%s', $value, $value);
+                 $out .= sprintf('<option value="%s">%s', $value, $value);
               }
             } 
           }
@@ -161,15 +166,11 @@ function display_nav($table, $idx, $has_update = false, $has_activation = false,
   $table['data'] = $table;
   $table['column'] = current($table);
   $out = '';  // the return value
-  $nb_col = 0;  // the number of max column
-  $count = 0; // count the actual column
   $id = 0; // actual index
   $fields_name[] = $table['column'];  // contains the schema's columns
 
   $out .= '<div class="card">';
   $attachments = array();
-
-  $nb_col = count($fields_name[0]);
   #region data
   foreach ($table['data'] as $record) {
     if (isset($record['media'])) {
@@ -182,21 +183,26 @@ function display_nav($table, $idx, $has_update = false, $has_activation = false,
       if (stripos($key, $idx) !== false) {
         $id = $value;
         $out .= '<div class="card-body">';
+        $out .= ($has_delete) ? sprintf('<button type="submit" class="btn btn-outline-secondary" value="delete-%d" name="do">Delete</button>', $id) : ''; 
+        $out .= ($has_update) ? sprintf('<button type="submit" class="btn btn-outline-secondary" value="update-%d" name="do">Update</button>', $id) : '';
       } else if (stripos($key, 'Nm_Resource') !== false) {
         $out .= sprintf('<h5 class="card-title">%s</p>', $value);
+      }
+      
+      if (stripos($key, 'Is_Deleted') !== false) {
+        if ($value == 1) {
+          if ($has_activation) {
+            $out .= sprintf('<td><button type="submit" class="btn btn-outline-secondary" value="activate-%d" name="do">Activate</button></td>', $id);
+          } else {
+            $out = '';
+          }
+        } else {
+          $out .= sprintf(($has_activation) ? '<td><button type="submit" class="btn btn-outline-secondary" value="deactivate-%d" name="do">Deactivate</button></td>' : '', $id);
+        }
       }
       // if it's not the id col
       else if (stripos(strtolower($key), 'id') === false && stripos(strtolower($key), 'creation') === false  && strpos(strtolower($key), 'media') === false) {
         $out .= sprintf('<p class="card-text" id="%s">%s</p>', $id, $value);
-      }
-      // at the final column, will display option of deletion and update
-      if ($count == $nb_col - 1) {
-          $out .= ($has_delete) ? sprintf('<button type="submit" class="btn btn-outline-secondary" value="delete-%d" name="do">Delete</button>', $id) : ''; 
-          $out .= ($has_update) ? sprintf('<button type="submit" class="btn btn-outline-secondary" value="update-%d" name="do">Update</button>', $id) : '';
-          $out .= ($has_activation) ? sprintf('<button type="submit" class="btn btn-outline-secondary" value="activate-%d" name="do">Activate</button>', $id) : '';
-          $count = 0;
-      } else {
-        $count++;
       }
     }
     if ($attachments != array()) {
@@ -221,4 +227,35 @@ function display_nav($table, $idx, $has_update = false, $has_activation = false,
   #endregion
   $out .= '</div>';
   return $out;
+}
+
+/**
+ * verify if the given string is OK.
+ * @param string the given string
+ * @param int min size allowed
+ * @param int max size allowed
+ * @param bool will know if number are permit or not
+ * @return bool false if error in string
+ */
+function verify_string($string, $min_size, $max_size, $allow_number = false) {
+  
+  $flag = true;
+    if($string){
+        if (!(strlen ($string) >= $min_size && strlen ($string) <= $max_size))
+            $flag = false;
+        if (!$allow_number){
+            $re = '/^[A-Za-z]+$/';
+            if(!preg_match($re, $text))
+                $flag = false;
+        } else {
+          $re = '/^[A-Za-z0-9]+$/';
+          if (!preg_match($re, $string)) {
+            $flag = false;
+          }
+        }
+    }
+    else {
+        $flag = false;
+    }
+    return $flag;
 }

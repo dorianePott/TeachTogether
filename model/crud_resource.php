@@ -6,6 +6,7 @@
  */
 
  #region resources
+ 
  #region Create
  /**
   * Create a brand new education
@@ -177,7 +178,6 @@
 }
  #endregion
  
-
  #region Update
 
  /**
@@ -211,7 +211,7 @@
 
  #region Delete
  /**
-  * Delete the resource, and all the attachments link to it
+  * Deactivate the resource, and all the attachments link to it
   * @param int resource's id
   * @return bool false if error
   */
@@ -229,7 +229,7 @@
         $bind = array(
             ':id' => $id_resource
         );
-        $query = "DELETE FROM `Tbl_Resource` WHERE `Id_Resource` = :id";
+        $query = "UPDATE `TeachTogether`.`Tbl_Resource` SET `Is_Deleted` = '1' WHERE `Id_Resource` = :id";
         $db = connect();
         $query = $db->prepare($query);
         $query->execute($bind);
@@ -238,6 +238,36 @@
         $e->getMessage();
         return FALSE;
     }
+ }
+
+ /**
+  * Activate the resource, and all the attachements link to it
+  * @param int resource's id
+  * @return bool false if error
+  */
+ function activate_resource($id_resource) {
+    try {
+        // read resource
+       $record = read_resource_by_id($id_resource)[0];
+       $media = $record['media'];
+       // if resource has media, del media
+       if ($media != array()) {
+           activate_attachment_by_fk($id_resource);
+       }
+
+       //delete resource
+       $bind = array(
+           ':id' => $id_resource
+       );
+       $query = "UPDATE `TeachTogether`.`Tbl_Resource` SET `Is_Deleted` = '0' WHERE `Id_Resource` = :id";
+       $db = connect();
+       $query = $db->prepare($query);
+       $query->execute($bind);
+       return TRUE;
+   } catch(Exception $e){
+       $e->getMessage();
+       return FALSE;
+   }
  }
  #endregion
 
@@ -340,7 +370,7 @@
         $bind = array(
             ':fk' => $fk
         );
-        $query = "DELETE FROM `Tbl_Attachment` WHERE `Id_Resource` = :fk";
+        $query = "UPDATE `TeachTogether`.`Tbl_Attachment` SET `Is_Deleted` = '1' WHERE `Id_Resource` = :fk";
         $db = connect();
         $query = $db->prepare($query);
         $query->execute($bind);
@@ -355,12 +385,33 @@
   * @param int attachment's id
   * @return bool false if error
    */
-  function delete_attachment_by_id($id) {
+ function delete_attachment_by_id($id) {
     try {
         $bind = array(
             ':id' => $id
         );
-        $query = "DELETE FROM `Tbl_Attachment` WHERE `Id_Attachment` = :id";
+        $query = "UPDATE `Tbl_Attachment` SET `Is_Deleted` = '1' WHERE `Id_Attachment` = :id";
+        $db = connect();
+        $query = $db->prepare($query);
+        $query->execute($bind);
+        return TRUE;
+    } catch(Exception $e){
+        $e->getMessage();
+        return FALSE;
+    }
+ }
+
+ /**
+  * Reactivate an attachments linked to a given education
+  * @param int resource's id
+  * @return bool false if error
+  */
+ function activate_attachment_by_fk($fk) {
+    try {
+        $bind = array(
+            ':fk' => $fk
+        );
+        $query = "UPDATE `TeachTogether`.`Tbl_Attachment` SET `Is_Deleted` = '0' WHERE `Id_Resource` = :fk";
         $db = connect();
         $query = $db->prepare($query);
         $query->execute($bind);

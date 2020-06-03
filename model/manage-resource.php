@@ -14,9 +14,15 @@
     header('Location: ?action=update');
     exit();
 }
- else if (stripos($do, 'delete') !== false) {
+ else if (stripos($do, 'deactivate') !== false) {
     $id = explode('-', $do);
     $id = $id[1];
     //delete the resource
     delete_resource($id);
+ }
+ else if (stripos($do, 'activate') !== false) {
+    $id = explode('-', $do);
+    $id = $id[1];
+    //reactivate a resource
+    activate_resource($id);
  }

@@ -144,7 +144,8 @@ require_once 'database.php';
  }
 
  /**
-  * 
+  * @return array all permissions for anonymous user
+  * @return false if error 
   */
  function read_anonyme_perm() {
     try {
@@ -294,7 +295,4 @@ require_once 'database.php';
     }
  }
  
- #endregion
-
- #region Delete
  #endregion

@@ -20,7 +20,6 @@
      $code = read_module_by_id($code)[0]['Cd_Module'];
      $media = $record[0]['media'];
  }
- echo 'go to update';
  //update only if name and desc != NULL
  if ($do == 'update' && $name != "" && $desc != "") {
      $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
@@ -28,7 +27,6 @@
      $code = filter_input(INPUT_POST, 'Cd_Module', FILTER_SANITIZE_STRING);
      $code = read_module_by_code($code)[0]['Id_Module'];
      $count_files = (isset($_FILES['upload']['name'])) ? count($_FILES['upload']['name']) : 0;
-     echo 'go to add attachment';
      //if add attachments
      #region file
      if(check_size($_FILES['upload']['size']) == TRUE && $count_files > 0){
@@ -56,11 +54,9 @@
              }
          }
      }
-
      #endregion
-     var_dump($id);
      update_resource($id, $desc, $name, $code);
-     header("Location: ?action=manage-resource");
+     header("Location: ?action=profile");
      exit();
  }
  //delete attachment

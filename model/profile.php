@@ -14,7 +14,6 @@
  $name = "";
  $desc = "";
 
-
  if ($do == 'create') {
      #name desc upload[]
      $date = date("Y-m-d H:i:s");

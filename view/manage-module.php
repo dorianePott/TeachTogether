@@ -12,9 +12,13 @@
         echo <<<FORM
         <input name="code" value="$code"/>
         <input name="name" value="$name"/>
+        <input name="link" value="$link"/>
 FORM;
         echo display_select(read_all_education(), $education);
         echo '<button name="submit" value="update" type="submit">Update</button>';
+    }
+    if ($msg != '') {
+        echo '<div class="alert">'.$msg.'</div>';
     }
     ?>
     </form>

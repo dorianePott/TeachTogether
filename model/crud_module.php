@@ -2,7 +2,6 @@
 /**
  * @author Pott Doriane
  * @version 1.0 (2020/05/27)
- * @todo update_education() { }
  */
 
  #region Create
@@ -179,7 +178,7 @@
   * @return array record
   * @return false if error
   */
-  function read_education_by_id($id) {
+ function read_education_by_id($id) {
     try {
         $bind = array(
             ':id' => $id
@@ -201,18 +200,20 @@
   * @param int id
   * @param string code
   * @param string name
+  * @param string module's ICT link
   * @param int fk
   * @return bool false if error
   */
- function update_module($id, $code, $name, $fk) {
+ function update_module($id, $code, $name, $link, $fk) {
     try {
         $bind = array(
             ':name' => $name,
             ':id' => $id,
             ':code' => $code,
+            ':link' => $link,
             ':fk' => $fk
         );
-        $query = 'UPDATE `TeachTogether`.`Tbl_Module` SET `Cd_Module` = :code, `Nm_Module` = :name, `Id_Education` = :fk WHERE (`Id_Module` = :id);';
+        $query = 'UPDATE `TeachTogether`.`Tbl_Module` SET `Cd_Module` = :code, `Nm_Module` = :name, `Txt_Module_Link` = :link, `Id_Education` = :fk WHERE (`Id_Module` = :id);';
         $db = connect();
         $query = $db->prepare($query);
         $query->execute($bind);
@@ -222,9 +223,30 @@
         return FALSE;
     }
  }
+ 
  /**
-  * @todo update_education(){ }
+  * @param int id
+  * @param string name
+  * @param string module's ICT link
+  * @return bool false if error
   */
+  function update_education($id, $name, $link) {
+    try {
+        $bind = array(
+            ':name' => $name,
+            ':id' => $id,
+            ':link' => $link
+        );
+        $query = 'UPDATE `TeachTogether`.`Tbl_Module` SET `Nm_Module` = :name, `Txt_Module_Link` = :link WHERE (`Id_Module` = :id);';
+        $db = connect();
+        $query = $db->prepare($query);
+        $query->execute($bind);
+        return TRUE;
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return FALSE;
+    }
+ }
  #endregion
 
  #region Delete
