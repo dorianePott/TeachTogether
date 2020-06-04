@@ -81,4 +81,5 @@ echo <<<END
 </ul>
     </div>
 </nav>
+<h2 class="text-center">$action</h2>
 END;

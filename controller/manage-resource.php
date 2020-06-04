@@ -8,6 +8,6 @@
 require_once 'model/function.php';
 require_once 'model/crud_resource.php';
 require_once 'view/nav.php';
-require_once 'view/footer.php';
 require_once 'model/manage-resource.php';
 require_once 'view/manage-resource.php';
+require_once 'view/footer.php';

@@ -11,5 +11,5 @@ require_once 'model/crud_resource.php';
 require_once 'model/crud_user.php';
 require_once 'model/update.php';
 require_once 'view/nav.php';
-require_once 'view/footer.php';
 require_once 'view/update.php';
+require_once 'view/footer.php';

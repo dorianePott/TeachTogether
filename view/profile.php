@@ -9,15 +9,16 @@
     <link rel="stylesheet" href="assets/css/bootstrap.css">
 </head>
 <body>
+    <article class="container">
     <h2>Profile</h2>
-    <h4>Lessons : </h4>
-    <nav class="card" style="float:left;border:1px solid black;">
-        <?= display_nav($resources, 'Id_Resource')?>
+    <h4>Lessons posted</h4>
+    <nav class="card" style="overflow: auto; float:left; height:75%; >
+        <?= display_nav($resources, 'Id_Resource', 'Nm_Resource')?>
     </nav>
-    <nav class="card" style="float:right;">
+    <nav class="card" style="float:right; overflow:auto; height:30%;">
         <h4 class="card-title" style="text-align:center;"> Your resources </h4>
         <form method="post" action="?action=profile" enctype="multipart/form-data">
-            <?= display_nav($own, 'Id_Resource', true, false, true)?>
+            <?= display_nav($own, 'Id_Resource', 'Nm_Resource', true, false, true)?>
             <div class="card-body">
             <br/>
             <h5 class="card-title">Add resource</h5>
@@ -32,5 +33,6 @@
             </div>
     </form>
     </nav>
+</article>
 </body>
 </html>

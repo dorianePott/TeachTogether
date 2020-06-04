@@ -67,16 +67,16 @@ function display_table($table, $idx, $has_update = false, $has_activation = fals
     $fields_name[] = $table['column'];  // contains the schema's columns
 
     #region header
-    $out .= '<table class="table">';
-    $out .= '<thead class="thead-light"><tr>';
+    $out .= '<table class="table table-sm table-light table-hover"><caption>List of data</caption>';
+    $out .= '<thead class="thead thead-dark"><tr>';
     // cross the different column to get there name to display them later
     foreach ($fields_name as $col) {
       foreach ($col as $key => $value) {
-        $out .= '<th>'.$key.'</th>';
+        $out .= '<th col-4>'.$key.'</th>';
         $nb_col++;
       }
     }
-    $out .= (($has_delete) ? '<th>Deletion</th>' : '') . (($has_update) ? '<th>Update</th>' : '') . (($has_activation) ? '<th>Activate</th></tr></thead>' : '');
+    $out .= (($has_update) ? '<th>Update</th>' : '');
     $out .= '</tr></thead>';
     #endregion
     #region data
@@ -86,18 +86,25 @@ function display_table($table, $idx, $has_update = false, $has_activation = fals
         if (stripos($key, $idx) !== false) {
           $id = $value;
         }
-        if (stripos($key, 'Is_Deleted') !== false) {
+        if (stripos($key, 'deleted') !== false) {
           if ($value == 1) {
             $out .= sprintf(($has_activation) ? '<td><button type="submit" class="btn btn-outline-secondary" value="activate-%d" name="do">Activate</button></td>' : '', $id);
           } else {
             $out .= sprintf(($has_activation) ? '<td><button type="submit" class="btn btn-outline-secondary" value="deactivate-%d" name="do">Deactivate</button></td>' : '', $id);
           }
+        } else if( stripos($key, 'active') !== false){
+          if ($value == 0) {
+            $out .= sprintf(($has_activation) ? '<td><button type="submit" class="btn btn-outline-secondary" value="activate-%d" name="do">Activate</button></td>' : '', $id);
+          } else {
+            $out .= sprintf(($has_activation) ? '<td><button type="submit" class="btn btn-outline-secondary" value="deactivate-%d" name="do">Deactivate</button></td>' : '', $id);
+          }
+        } else {
+          $out .= sprintf('<td id="%s">%s</td>', $id, $value);
         }
-        $out .= sprintf('<td id="%s">%s</td>', $id, $value);
         // at the final column, will display option of deletion and update
         if ($count == $nb_col - 1) {
-            $out .= sprintf(($has_delete) ? '<td><button type="submit" class="btn btn-outline-secondary" value="delete-%d" name="do">Delete</button></td>' : '', $id) 
-            . sprintf(($has_update) ? '<td><button type="submit" class="btn btn-outline-secondary" value="update-%d" name="do">Update</button></td>' : '', $id);
+            $out .= sprintf(($has_delete) ? '<td class="col-4"><button type="submit" class="btn btn-outline-secondary" value="delete-%d" name="do">Delete</button></td>' : '', $id) 
+            . sprintf(($has_update) ? '<td class="col-4"><button type="submit" class="btn btn-outline-secondary" value="update-%d" name="do">Update</button></td>' : '', $id);
             $count = 0;
         } else {
           $count++;
@@ -159,7 +166,7 @@ function display_select($table, $idx = NULL) {
  * @param bool true if user has the possibility to delete data
  * @return string table's data in html nav
  */
-function display_nav($table, $idx, $has_update = false, $has_activation = false, $has_delete = false) {
+function display_nav($table, $idx, $title, $has_update = false, $has_activation = false, $has_delete = false) {
   if ($table == NULL) {
     return false;
   }
@@ -185,11 +192,11 @@ function display_nav($table, $idx, $has_update = false, $has_activation = false,
         $out .= '<div class="card-body">';
         $out .= ($has_delete) ? sprintf('<button type="submit" class="btn btn-outline-secondary" value="delete-%d" name="do">Delete</button>', $id) : ''; 
         $out .= ($has_update) ? sprintf('<button type="submit" class="btn btn-outline-secondary" value="update-%d" name="do">Update</button>', $id) : '';
-      } else if (stripos($key, 'Nm_Resource') !== false) {
-        $out .= sprintf('<h5 class="card-title">%s</p>', $value);
+      } else if (stripos($key, $title) !== false) {
+        $out .= sprintf('<h5 class="card-title">%s</h5>', $value);
       }
       
-      if (stripos($key, 'Is_Deleted') !== false) {
+      if (stripos($key, 'deleted') !== false) {
         if ($value == 1) {
           if ($has_activation) {
             $out .= sprintf('<td><button type="submit" class="btn btn-outline-secondary" value="activate-%d" name="do">Activate</button></td>', $id);

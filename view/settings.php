@@ -10,41 +10,44 @@
 
 </head>
 <body>
-    <form action="?action=settings" method="post" class="section" enctype="multipart/form-data">
-    <h4>Avatar</h4>
-    <div class="custom-file" style="">
-        <input id="inputFile" class="custom-file-input" type="file" name="avatar" accept="image/*"/>
-        <label class="custom-file-label" for="inputFile">
-        Allowed Formats: JPEG PNG GIF Max size 5MB Optimal dimensions: 230x230
-        </label>
-    </div>
+    <form action="?action=settings" method="post" class="container" enctype="multipart/form-data">
+    <div class="row"><div class="col">
     <div class="input-group">
-        <h4>First Name</h4>
+        <h5>First/Last Name</h5>
             <input name="first" class="form-control" type="text" value="<?=$first?>"/>
-        <h4>Last Name</h4>
+        <h5>Last Name</h5>
             <input name="last" class="form-control" type="text" value="<?=$last?>"/>
     </div>
-    
+</div><div class="col">
     <div class="input-group">
         <h4>Email</h4>
         <div class="el-input">
             <input name="email" class="form-control" type="email" value="<?=$email?>"/>
         </div>
     </div>
-
+    <h4>Avatar</h4>
+    <div class="custom-file" style="">
+        <input id="inputFile" class="custom-file-input" type="file" name="avatar" accept="image/*"/>
+        <label style="font-size:10px" class="custom-file-label" for="inputFile">Allowed Formats: images | Max size 5MB</label>
+    </div>
+</div></div>
+<div class="row">
+    <div class="col">
     <div class="input-group">
-        <h4>Change Password</h4>
+        <h4>Change password</h4>
         <div class="el-input">
             <input class="form-control" type="password"/>
         </div>
-        <br/>
+    </div>
+</div><div class="col">
         <div class="input-group">
+            <h4>Repeat password</h4>
             <input class="form-control" type="password"/>
         </div>
     </div>
-    
+</div></div>
     <div class="input-group">
-        <h4>Confirm Current Password</h4>
+        <h4>Confirm current password</h4>
         <div class="el-input">
             <input name="confirm" required class="form-control" type="password"/>
         </div>

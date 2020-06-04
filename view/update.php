@@ -9,13 +9,14 @@
     <link rel="stylesheet" href="assets/css/bootstrap.css">
 </head>
 <body>
-    <form method="post" action="?action=update" enctype="multipart/form-data">
+    <form method="post" action="?action=update" enctype="multipart/form-data" class="form container">
         <h1 class="card-title">update</h1>
-        <input id="resource-name" type="text" name="name" placeholder="Name" value="<?=$name?>"/>
-        <input id="resource-desc" type="text" name="desc" placeholder="Description" value="<?=$desc?>"/>
+        <div class="row"><div class="col">
+        <input id="resource-name" type="text" name="name" placeholder="Name" value="<?=$name?>" class="form-control"/></div><div class="col">
+        <input id="resource-desc" type="text" name="desc" placeholder="Description" value="<?=$desc?>" class="form-control"/></div></div><br/>
         <?= display_select(read_module_by_education($education), $code) ?>
         <?= display_table($media, 'Id_Attachment', false, false, true) ?>
-        <h1 class="card-title">Add media</h1>
+        <h4 class="card-title">Add media</h4>
         <input type="file" name="upload[]" multiple/>
         <button class="btn btn-outline-info" type="submit" name="do" value="update">Validate</button>
     </form>

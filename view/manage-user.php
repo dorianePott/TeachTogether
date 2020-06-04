@@ -10,7 +10,7 @@
 </head>
 <body>
     <form method='post' role="form" action="?action=manage-user" enctype="multipart/form-data">
-        <?= display_table(read_user_unactivate(), 'Id_User', false, true) ?>
+        <?= display_table(read_all_user(), 'Id_User', false, true) ?>
     </form>
 </body>
 </html>

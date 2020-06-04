@@ -23,6 +23,8 @@ mysql> source structure.sql;
 
 3. Make sure the `storage` folder is writable by the server.
 
+4. Make sure that in your php.ini, the upload_max_filesize = 5M
+
 ## Authors
 - **Doriane Pott** ([doriane.pott@bluewin.ch](mailto:doriane.pott@bluewin.ch))
 
@@ -48,6 +50,8 @@ mysql> source structure.sql;
 2. Faites une copie du fichier `const.php` dans le dossier `/model/const.php` et remplissez avec vos identifiants de connexion à la base de données.
 
 3. Assurez-vous que le serveur a les droits d'écriture sur le dossier `storage`.
+
+4. Assurez-vous que dans votre fichier php.ini, la ligne avec upload_max_filesize, correspondent à upload_max_filesize = 5M
 
 ## Auteurs
 - **Doriane Pott** ([doriane.pott@bluewin.ch](mailto:doriane.pott@bluewin.ch))

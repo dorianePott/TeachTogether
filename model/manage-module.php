@@ -34,6 +34,8 @@
             update_module($id, $code, $name, $link, $education);
             $_SESSION['update'] = NULL;
             header('Location: ?action=manage-module');
+         } else {
+            $msg .= '<br/>please check, the size of your input';
          }
       }
    }

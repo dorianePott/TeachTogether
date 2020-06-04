@@ -34,6 +34,13 @@ function in_multi_array($element, $array){
     }
     return false;
 }
+
+//view action
+try {
+    require_once 'controller/' . $action . '.php';
+} catch (Exception $e) {
+    throw $e;
+}
 // invalid permission
 if (!in_multi_array($action.'-view', $permissions)) {
     if (in_multi_array($action, $permissions)) {
@@ -42,10 +49,4 @@ if (!in_multi_array($action.'-view', $permissions)) {
         }
     }
     $action = 'home';
-}
-//view action
-try {
-    require_once 'controller/' . $action . '.php';
-} catch (Exception $e) {
-    throw $e;
 }

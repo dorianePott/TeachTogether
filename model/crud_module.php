@@ -262,7 +262,7 @@
             ':id' => $id,
             ':link' => $link
         );
-        $query = 'UPDATE `TeachTogether`.`Tbl_Module` SET `Nm_Module` = :name, `Txt_Module_Link` = :link WHERE (`Id_Module` = :id);';
+        $query = 'UPDATE `TeachTogether`.`Tbl_Education` SET `Nm_Education` = :name, `Txt_Education_Link` = :link WHERE (`Id_Education` = :id);';
         $db = connect();
         $query = $db->prepare($query);
         $query->execute($bind);
