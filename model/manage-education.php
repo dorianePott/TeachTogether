@@ -5,12 +5,7 @@
  * management page for educations
  */
 
- $name = filter_input(INPUT_POST, 'education', FILTER_SANITIZE_STRING);
  $btn = filter_input(INPUT_POST, 'do', FILTER_SANITIZE_STRING);
-
- if ($name != NULL && $btn == 'create') {
-    create_education($name);
- }
  $msg = '';
  $education = NULL;
  $do = filter_input(INPUT_POST, 'do', FILTER_SANITIZE_STRING);
@@ -28,16 +23,22 @@
       $name = $edu['Nm_Education'];
       $link = $edu['Txt_Education_Link'];
       
-      if ($btn == 'update') {
-         $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
-         $link = filter_input(INPUT_POST, 'link', FILTER_SANITIZE_STRING);
-         if ($name != '' && strlen($name) <= 100 && strlen($link) <= 200) {
-            update_education($id, $name, $link);
-            $_SESSION['update'] = NULL;
-            header('Location: ?action=manage-education');
-         } else {
-            $msg .= 'check input size';
-         }
-      }
    }
  }
+
+ 
+ if ($btn != '') {
+   $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+   $link = filter_input(INPUT_POST, 'link', FILTER_SANITIZE_STRING);
+   if ($name != '' && strlen($name) <= 100 && strlen($link) <= 200) {
+      if ($btn == 'update') {
+         update_education($id, $name, $link);
+         $_SESSION['update'] = NULL;
+         header('Location: ?action=manage-education');
+      } else if($btn == 'create') {
+         create_education($name, $link);
+      }
+   } else {
+      $msg .= 'check input size';
+   }
+}

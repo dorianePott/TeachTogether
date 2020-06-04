@@ -11,27 +11,20 @@
 </head>
 <body>
     <form method="post" action="?action=manage-education" class="container">
+    <div class="row"><div class="col">
+            <input name="name" value="<?= (isset($name)) ? $name : '' ?>" class="form-control" placeholder="education's name"/></div><div class="col">
+            <input name="link" value="<?= (isset($link)) ? $link : '' ?>" class="form-control" placeholder="education's link"/></div><div class="col">
     <?php
-        
         if ($id != NULL) {
-            echo <<<FORM
-            <div class="row"><div class="col">
-            <input name="name" value="$name" class="form-control"/></div><div class="col">
-            <input name="link" value="$link" class="form-control"/></div><div class="col">
-FORM;
             echo '<button name="submit" value="update" type="submit" class="btn btn-warning">Update</button></div></div><br/>';
+        } else {
+            echo '<button id="create-education" type="submit" name="do" value="create" class="btn btn-info">create education</button></div></div>';
         }
         if ($msg != '') {
-            echo '<div class="alert bg-danger text-white">'.$msg.'</div>';
+            echo '<div class="alert bg-danger text-white">' . $msg.'</div>';
         }
     ?>
         <?= display_table(read_all_education(), 'Id_Education', true); ?>
-    <br/>
-    <br/>
-    <div class="row"><div class="col">
-        <input id="name-education" type="text" name="education" id="education" value="<?= (isset($name)) ? $name : '' ?>" class="form-control"/></div><div class="col">
-        <button id="create-education" type="submit" name="do" value="create" class="btn btn-info">create education</button></div></div>
-
     </form>
 </body>
 </html>
