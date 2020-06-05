@@ -7,7 +7,7 @@
  */
 require_once 'model/manage-user.php';
 require_once 'model/crud_user.php';
-require_once 'model/function.php';
+require_once 'controller/function.php';
 require_once 'view/nav.php';
 require_once 'view/manage-user.php';
 require_once 'view/footer.php';

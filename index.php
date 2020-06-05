@@ -21,6 +21,7 @@ foreach ($perm as $p) {
     }
 }
 #endregion
+
 /**
  * check if value in multi-dimensional array 2 : [][]
  * @param string element
@@ -35,12 +36,6 @@ function in_multi_array($element, $array){
     return false;
 }
 
-//view action
-try {
-    require_once 'controller/' . $action . '.php';
-} catch (Exception $e) {
-    throw $e;
-}
 // invalid permission
 if (!in_multi_array($action.'-view', $permissions)) {
     if (in_multi_array($action, $permissions)) {
@@ -49,4 +44,11 @@ if (!in_multi_array($action.'-view', $permissions)) {
         }
     }
     $action = 'home';
+} else {
+    //view action
+    try {
+        require_once 'controller/' . $action . '.php';
+    } catch (Exception $e) {
+        throw $e;
+    }
 }

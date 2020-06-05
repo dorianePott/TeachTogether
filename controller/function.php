@@ -1,5 +1,7 @@
 <?php
 
+require_once 'model/const.php';
+
 #region const
 define('DEFAULT_DIR', 'storage/');
 define('MAX_FILE_SIZE', 5242880);  //5MB
@@ -60,14 +62,14 @@ function display_table($table, $idx, $has_update = false, $has_activation = fals
     }
     $table['data'] = $table;
     $table['column'] = current($table);
-    $out = '';  // the return value
+    $out = '<nav class="card" style="overflow: auto; height:50%;">    ';  // the return value
     $nb_col = 0;  // the number of max column
     $count = 0; // count the actual column
     $id = 0; // actual index
     $fields_name[] = $table['column'];  // contains the schema's columns
 
     #region header
-    $out .= '<table class="table table-sm table-light table-hover"><caption>List of data</caption>';
+    $out .= '<table class="table table-sm table-light table-hover" style="height:30%; overflow: auto; "><caption>List of data</caption>';
     $out .= '<thead class="thead thead-dark"><tr>';
     // cross the different column to get there name to display them later
     foreach ($fields_name as $col) {
@@ -86,13 +88,13 @@ function display_table($table, $idx, $has_update = false, $has_activation = fals
         if (stripos($key, $idx) !== false) {
           $id = $value;
         }
-        if (stripos($key, 'deleted') !== false) {
+        if (stripos($key, IS_DELETED) !== false) {
           if ($value == 1) {
             $out .= sprintf(($has_activation) ? '<td><button type="submit" class="btn btn-outline-secondary" value="activate-%d" name="do">Activate</button></td>' : '', $id);
           } else {
             $out .= sprintf(($has_activation) ? '<td><button type="submit" class="btn btn-outline-secondary" value="deactivate-%d" name="do">Deactivate</button></td>' : '', $id);
           }
-        } else if( stripos($key, 'active') !== false){
+        } else if( stripos($key, IS_ACTIVATE) !== false){
           if ($value == 0) {
             $out .= sprintf(($has_activation) ? '<td><button type="submit" class="btn btn-outline-secondary" value="activate-%d" name="do">Activate</button></td>' : '', $id);
           } else {
@@ -113,7 +115,7 @@ function display_table($table, $idx, $has_update = false, $has_activation = fals
       $out .= '</tr>';
     }
     #endregion
-    $out .= '</table>';
+    $out .= '</table></nav>';
     return $out;
 }
 
@@ -176,7 +178,7 @@ function display_nav($table, $idx, $title, $has_update = false, $has_activation 
   $id = 0; // actual index
   $fields_name[] = $table['column'];  // contains the schema's columns
 
-  $out .= '<div class="card">';
+  $out .= '<div>';
   $attachments = array();
   #region data
   foreach ($table['data'] as $record) {
@@ -189,14 +191,14 @@ function display_nav($table, $idx, $title, $has_update = false, $has_activation 
       // check if index and save it
       if (stripos($key, $idx) !== false) {
         $id = $value;
-        $out .= '<div class="card-body">';
+        $out .= '<div class="card"><div class="card-body">';
         $out .= ($has_delete) ? sprintf('<button type="submit" class="btn btn-outline-secondary" value="delete-%d" name="do">Delete</button>', $id) : ''; 
         $out .= ($has_update) ? sprintf('<button type="submit" class="btn btn-outline-secondary" value="update-%d" name="do">Update</button>', $id) : '';
       } else if (stripos($key, $title) !== false) {
         $out .= sprintf('<h5 class="card-title">%s</h5>', $value);
       }
-      
-      if (stripos($key, 'deleted') !== false) {
+      //if deleted
+      if (stripos($key, IS_DELETED) !== false) {
         if ($value == 1) {
           if ($has_activation) {
             $out .= sprintf('<td><button type="submit" class="btn btn-outline-secondary" value="activate-%d" name="do">Activate</button></td>', $id);
@@ -212,14 +214,16 @@ function display_nav($table, $idx, $title, $has_update = false, $has_activation 
         $out .= sprintf('<p class="card-text" id="%s">%s</p>', $id, $value);
       }
     }
+    #region media
     if ($attachments != array()) {
+      $out .= '</div><div class="card-footer">';
       foreach ($attachments as $media) {
         $file = $media['Nm_File'];
         $name = $media['Nm_Attachment'];
         $mime = $media['Cd_Mime_Type'];
         $size = $media['Nb_Bytes'];
 
-        $out .='<p><a class="card-link" href="?action=file&do=read&file='. $file 
+        $out .='<p class="card-footer card-text"><a class="card-link" href="?action=file&do=read&file='. $file 
         . '&name=' . $name . '&mime=' . $mime . '&size=' . $size . '">
           <img src="assets/img/file.svg" height="20"/>' . $name . '</a>';
         
@@ -228,8 +232,9 @@ function display_nav($table, $idx, $title, $has_update = false, $has_activation 
           <img src="assets/img/download.svg" height="20"/>' . $name . '</a></p>';
       }
     }
+    #endregion
     $attachments = array();
-    $out .= '</div>';
+    $out .= '</div></div>';
   }
   #endregion
   $out .= '</div>';
@@ -244,25 +249,26 @@ function display_nav($table, $idx, $title, $has_update = false, $has_activation 
  * @param bool will know if number are permit or not
  * @return bool false if error in string
  */
-function verify_string($string, $min_size, $max_size, $allow_number = false) {
+function check_name($string, $min_size, $max_size, $allow_number = false) {
   
-  $flag = true;
     if($string){
         if (!(strlen ($string) >= $min_size && strlen ($string) <= $max_size))
             $flag = false;
         if (!$allow_number){
+            //regular expression, get letter only
             $re = '/^[A-Za-z]+$/';
             if(!preg_match($re, $text))
-                $flag = false;
+                return false;
         } else {
+          //regular expression, get alphanumeric char
           $re = '/^[A-Za-z0-9]+$/';
           if (!preg_match($re, $string)) {
-            $flag = false;
+            return false;
           }
         }
     }
     else {
-        $flag = false;
+        return false;
     }
-    return $flag;
+    return true;
 }

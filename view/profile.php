@@ -11,11 +11,15 @@
 <body>
     <article class="container">
     <h2>Profile</h2>
-    <h4>Lessons posted</h4>
-    <nav class="card" style="overflow: auto; float:left; height:75%; >
+    <h4>Lessons posted <?= (isset($nm_edu)) ? $nm_edu : '' ?></h4>
+    <nav class="card" style="overflow: auto; float:left; height:50%;" >
         <?= display_nav($resources, 'Id_Resource', 'Nm_Resource')?>
     </nav>
     <nav class="card" style="float:right; overflow:auto; height:30%;">
+        <?php
+    if ($msg != '') {
+        echo '<div class="alert bg-danger text-white">'.$msg.'</div>';
+    }?>
         <h4 class="card-title" style="text-align:center;"> Your resources </h4>
         <form method="post" action="?action=profile" enctype="multipart/form-data">
             <?= display_nav($own, 'Id_Resource', 'Nm_Resource', true, false, true)?>
@@ -31,6 +35,12 @@
             </div>
             <button class="btn btn-outline-info" type="submit" name="do" value="create">Create</button>
             </div>
+            <h5 class="card-title">Add Module</h5>
+            <input class="form-control" name="code" value="<?= (isset($code)) ? $cd_module : '' ?>" placeholder="module's code"/><br/>
+            <input class="form-control" name="module" value="<?= (isset($nm_module)) ? $nm_module : '' ?>" placeholder="module's name"/><br/>
+            <input class="form-control" name="link" value="<?= (isset($link)) ? $link : ''?>" placeholder="ICT module's link"/><br/>
+            <button id="create-module" type="submit" name="do" value="module" class="btn btn-info">create module</button><br/>
+
     </form>
     </nav>
 </article>

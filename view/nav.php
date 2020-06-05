@@ -6,9 +6,6 @@ echo <<<NAV
 <a class="navbar-brand" href="?action=home"><img src="assets/img/logo.svg" height="40em" class="colorWhite ml-md-2 ml-sm-1 img-circle"/></a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-        <li class="nav-item ml-5">
-            <a class="nav-link" href="?action=index"><img class="colorWhite mr-1" src="assets/img/home.svg" height="40em"/></a>
-        </li>
 NAV;
 
 #region user nav

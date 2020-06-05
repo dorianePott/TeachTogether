@@ -14,6 +14,13 @@
  $own = (read_resources_by_education($education, $owner, true));
  $name = "";
  $desc = "";
+ $nm_module = '';
+ $cd_module = '';
+ $link = '';
+ $msg = '';
+ if ($education != NULL) {
+    $nm_edu = read_education_by_id($education)[0]['Nm_Education'];
+ }
 
  if ($do == 'create') {
      #name desc upload[]
@@ -53,17 +60,31 @@
      }
      #endregion
      header('Location: ?action=profile');
+     exit();
 }
  else if (stripos($do, 'update') !== false) {
      $id = explode('-', $do);
      $id = $id[1];
      $_SESSION['to_update'] = $id;
      header('Location: ?action=update');
-     exit;
+     exit();
  }
  else if (stripos($do, 'delete') !== false) {
     $id = explode('-', $do);
     $id = $id[1];
      //delete the resource
      delete_resource($id);
+     header('Location: ?action=profile');
+     exit();
+ } else if ($do == 'module') {
+     $nm_module = filter_input(INPUT_POST, 'module', FILTER_SANITIZE_STRING);
+     $cd_module = filter_input(INPUT_POST, 'code', FILTER_SANITIZE_STRING);
+     $link = filter_input(INPUT_POST, 'link', FILTER_SANITIZE_STRING);
+     if ($cd_module != '' && $nm_module != '' && $education != NULL && strlen($nm_module) <= 45 && strlen($cd_module) <= 5 && strlen($link) <= 200) {
+        create_module($cd_module, $nm_module, $education, $link);
+        header('Location: ?action=profile');
+        exit();
+     }else {
+        $msg .= '<br/>please check, the size of your input';
+     }
  }

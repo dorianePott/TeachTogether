@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="assets/css/bootstrap.css">
 </head>
 <body>
-    <form method='post' role="form" action="?action=manage-user" enctype="multipart/form-data">
+    <form method='post' role="form" action="?action=manage-user" enctype="multipart/form-data" class="container">
         <?= display_table(read_all_user(), 'Id_User', false, true) ?>
     </form>
 </body>

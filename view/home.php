@@ -11,7 +11,7 @@
 </head>
 <body>
     <article id="explanation" class="container text-center">
-     <div class="card border-info mb-3" style="max-width: 18rem;">
+     <div class="card border-info mb-3" style="max-width: 18rem; margin:auto;">
        <div class="card-header">Information</div>
        <div class="blockquote mb-0 card-body text-info">
          <h5 class="card-title">TeachTogether</h5>

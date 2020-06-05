@@ -11,7 +11,9 @@
 </head>
 <body>
     <form method="post" action="?action=manage-resource" class="container">
+    <nav class="card" style="overflow: auto; height:50%;">
         <?= display_nav(read_all_resource(), 'Id_Resource', true, true); ?>
+    </nav>
     </form>
 </body>
 </html>
