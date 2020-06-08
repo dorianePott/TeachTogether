@@ -36,6 +36,7 @@
         if(check_size($_FILES['upload']['size']) == TRUE && $count_files > 0){
             $files = array();
             $files = $_FILES['upload'];
+            //if first file exists
             if ($files['error'][0] != 4) {
                 //verify that there's file(s)
                 if ($count_files > 0) {
@@ -48,18 +49,14 @@
                         $path = DEFAULT_DIR;
                         $filename = generate_name($files['name'][$i]);
                         $size = $files['size'][$i];
-                        if (check_name(explode('.',$files['name'][$i])[0], 0, 100, true)) {
-                            if (move_uploaded_file($files["tmp_name"][$i], $path.$filename) == TRUE) {
+                            if (move_uploaded_file($files["tmp_name"][$i], $path.$filename) == TRUE && strlen($files['name'][$i]) <= 100) {
                                 create_attachment($size, $mime, $files['name'][$i], $filename, $id_resource);
                                 header('Location: ?action=profile');
                                 exit();
                                 
                             } else {
-                                $error = "\n file error";
+                                $error = "\n file error, please check that all files has a name below 100 characters, and retry";
                             }
-                        } else {
-                            $error ="<div class='text-danger'>verify that the file's name has < 100 characters, that they're alphanumeric, before uploading it.</div>";
-                        }
                     }
                 }
             }

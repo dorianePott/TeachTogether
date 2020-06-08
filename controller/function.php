@@ -250,7 +250,7 @@ function check_name($string, $min_size, $max_size, $allow_number = false) {
   if($string){
         if (!(strlen($string) < $min_size && strlen ($string) > $max_size))
             $flag = false;
-        if (!$allow_number){
+        if ($allow_number == false){
             //regular expression, get letter only
             $re = '/^[A-Za-z]+$/';
             if(!preg_match($re, $string) === false)

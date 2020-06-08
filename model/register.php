@@ -35,12 +35,14 @@ if ($do == 'register') {
      $pwd = filter_input(INPUT_POST, 'pwd', FILTER_SANITIZE_STRING);
      $repwd = filter_input(INPUT_POST, 'repwd', FILTER_SANITIZE_STRING);
      $education = read_education_by_name(filter_input(INPUT_POST, 'Nm_Education', FILTER_SANITIZE_STRING))[0]['Id_Education'];
-    if (sha1($pwd.$salt) == sha1($repwd.$salt) && $first != NULL &&
-        $last != NULL && $pwd != NULL && $repwd != NULL && $email != NULL) {
+    if (sha1($pwd.$salt) == sha1($repwd.$salt) && check_name($first, 1, 45) == true && check_name($last, 1, 45) 
+        && $pwd != NULL && $repwd != NULL && $email != NULL) {
         create_user($first, $last, $email, sha1($pwd . $salt), $salt, $education);
         header('Location: ?action=home');
         exit();
+    } else {
+        $msg = 'error, please complete fields, and verify that name and last name contens only letters, and make sure there are under 45 characters.';
+
     }
     
-    $msg = 'error, please complete fields';
 }

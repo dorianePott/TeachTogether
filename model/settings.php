@@ -47,14 +47,14 @@
                 $filename = generate_name($files['name']);
                 $size = $files['size'];
                 //control that it's an image before uploading it, check the filename's length, and that the name is alphanumeric
-                if (explode('/',$mime)[0] == 'image' && check_name(explode('.',$files['name'])[0], 0, 100, true)) {
+                if (explode('/',$mime)[0] == 'image') {
                     if (move_uploaded_file($files["tmp_name"], $path.$filename) == TRUE) {
                         $pic = $path.$filename;
                     } else {
                         $error = "\n file error";
                     }
                 } else {
-                    $error ="<div class='text-danger'>verify that the file's name has < 100 characters, that they're alphanumeric, and that the file's an image, before uploading it.</div>";
+                    $error ="<div class='text-danger'>verify that the file's an image, before uploading it.</div>";
                 }
             }
         }
