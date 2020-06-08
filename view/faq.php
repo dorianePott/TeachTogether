@@ -44,19 +44,23 @@
       <p class="card-text">Just call the admin, your resource isn't definitely deleted.</p>
     </div>
   </div>
+</div>
+<div class="card-group">
+
+  <div class="card border-info mb-3" style="max-width: 18rem;">
+      <h5 class="card-title card-header bg-transparent">Why can't i have accented characters in my name ?</h5>
+    <div class="card-body text-info">
+      <p class="card-text">It's because we don't allow names with non alphanumeric characters, as this site is in english, there's no need for accents.</p>
+    </div>
+  </div>
   <div class="card border-info mb-3" style="max-width: 18rem;">
       <h5 class="card-title card-header bg-transparent">Can my student see my resources ?</h5>
     <div class="card-body text-info">
       <p class="card-text">No, this web site is designed for teacher only.</p>
     </div>
   </div>
-  <div class="card border-info mb-3" style="max-width: 18rem;">
-      <h5 class="card-title card-header bg-transparent">Why does my avatar change to default when I import a file with accent or hiragana/katana, etc.. ?</h5>
-    <div class="card-body text-info">
-      <p class="card-text">It's because we don't allow files with non alphanumeric characters.</p>
-    </div>
-  </div>
 </div>
+
 </article>
 </body>
 </html>

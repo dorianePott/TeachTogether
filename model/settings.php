@@ -11,7 +11,6 @@
  $email = $user['Txt_Email'];
  $salt = $user['Txt_Password_Salt'];
  $pwd = '';
- $repwd = '';
  $do = filter_input(INPUT_POST, 'do', FILTER_SANITIZE_STRING);
  $error = '';
 
@@ -28,11 +27,9 @@
      $first = filter_input(INPUT_POST, 'first', FILTER_SANITIZE_STRING);
      $last = filter_input(INPUT_POST, 'last', FILTER_SANITIZE_STRING);
      $pwd = filter_input(INPUT_POST, 'pwd', FILTER_SANITIZE_STRING);
-     $repwd = filter_input(INPUT_POST, 'repwd', FILTER_SANITIZE_STRING);
      $confirm = filter_input(INPUT_POST, 'confirm', FILTER_SANITIZE_STRING);
      $pic = '';
      $pwd = ($pwd != '') ? sha1($pwd.$salt) : '';
-     $repwd = ($repwd != '') ? sha1($repwd.$salt) : '';
      $confirm = sha1($confirm.$salt);
      
      #region file
@@ -61,7 +58,11 @@
      }
      #endregion
 
-     if ($confirm != '' && $pwd != '' && $repwd != '' && $pwd == $repwd) {
+     if ($pic == '') {
+         $pic = $user['Nm_File_Profile_Picture'];
+     }
+
+     if ($confirm != '' && $pwd != '') {
         if ($confirm == $user['Txt_Password_Hash']) {
             update_user($confirm, $first, $last, $email, $pic, $pwd);
             $user = read_user_by_email($_SESSION['email'])[0];
