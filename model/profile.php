@@ -58,7 +58,7 @@
                                 $error = "\n file error";
                             }
                         } else {
-                            $error ="<div class='text-danger'>verify that the file's name has < 100 characters, that they're alphanumeric, and that the file's an image, before uploading it.</div>";
+                            $error ="<div class='text-danger'>verify that the file's name has < 100 characters, that they're alphanumeric, before uploading it.</div>";
                         }
                     }
                 }
