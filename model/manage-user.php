@@ -11,10 +11,8 @@ if (stripos($do, 'deactivate') !== false) {
     $id = explode("-", $do)[1];
     //verify if user exists
     //then update it
-    echo 'deactivate';
     deactivate_user($id);
 } else if (stripos($do, 'activate') !== false) {
-    echo 'activate';
     $id = explode("-", $do)[1];
     active_user($id);
 }

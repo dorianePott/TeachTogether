@@ -51,7 +51,7 @@ require_once 'database.php';
   */
  function read_all_user() {
     try {
-        $query = 'SELECT `Is_Active`, `Nm_First`, `Nm_Last`, `Txt_Email`, `Cd_Role`, `Id_Education` FROM `Tbl_User`';
+        $query = 'SELECT `Id_User`,`Is_Active`, `Nm_First`, `Nm_Last`, `Txt_Email`, `Cd_Role`, `Id_Education` FROM `Tbl_User`';
         $db = connect();
         $query = $db->prepare($query);
         $query->execute();
