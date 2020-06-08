@@ -42,8 +42,10 @@ if (!in_multi_array($action.'-view', $permissions)) {
         if (strpos($action, 'manage') == 0) {
             require_once 'controller/' . $action . '.php';
         }
+    }else {
+        
+        require_once 'controller/home.php';
     }
-    $action = 'home';
 } else {
     //view action
     try {

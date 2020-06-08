@@ -21,12 +21,12 @@
     </div>
 </div><div class="col">
     <div class="input-group">
-        <h4>Email</h4>
+        <h5>Email</h5>
         <div class="el-input">
             <input name="email" class="form-control" type="email" value="<?=$email?>"/>
         </div>
     </div>
-    <h4>Avatar</h4>
+    <h5>Avatar</h5>
     <div class="custom-file" style="">
         <input id="inputFile" class="custom-file-input" type="file" name="avatar" accept="image/*"/>
         <label style="font-size:10px" class="custom-file-label" for="inputFile">Allowed Formats: images | Max size 5MB</label>
@@ -35,14 +35,14 @@
 <div class="row">
     <div class="col">
     <div class="input-group">
-        <h4>Change password</h4>
+        <h5>Change password</h5>
         <div class="el-input">
             <input class="form-control" type="password"/>
         </div>
     </div>
 </div><div class="col">
         <div class="input-group">
-            <h4>Repeat password</h4>
+            <h5>Repeat password</h5>
             <input class="form-control" type="password"/>
         </div>
     </div>

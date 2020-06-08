@@ -64,7 +64,17 @@
      if ($confirm != '' && $pwd != '' && $repwd != '' && $pwd == $repwd) {
         if ($confirm == $user['Txt_Password_Hash']) {
             update_user($confirm, $first, $last, $email, $pic, $pwd);
-        } 
+            $user = read_user_by_email($_SESSION['email'])[0];
+
+            $perm = read_user_perm($user['Id_User']);
+            // save session
+            $_SESSION['email'] = $email;
+            $_SESSION['permissions'] = $perm;
+            $_SESSION['logged'] = TRUE;
+            $_SESSION['avatar'] = $user['Nm_File_Profile_Picture'];
+        } else {
+            $error .= '<div class="alert alert-danger" role="alert">Incorrect password</div>';
+        }
      }
      else if ($confirm != '') {
          if ($confirm == $user['Txt_Password_Hash']) {
@@ -80,7 +90,9 @@
 
             header('Location: ?action=profile');
             exit();
-         }
+         } else {
+            $error .= '<div class="alert alert-danger" role="alert">Incorrect password</div>';
+        }
      }
  }
  

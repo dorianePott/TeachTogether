@@ -163,9 +163,10 @@ function display_select($table, $idx = NULL) {
  * @param bool true if user has the possibility to update data
  * @param bool true if user has the possibility to activate something
  * @param bool true if user has the possibility to delete data
+ * @param bool true if user has the possibility to download medias
  * @return string table's data in html nav
  */
-function display_nav($table, $idx, $title, $has_update = false, $has_activation = false, $has_delete = false) {
+function display_nav($table, $idx, $title, $has_update = false, $has_activation = false, $has_delete = false, $has_download = true) {
   if ($table == NULL) {
     return false;
   }
@@ -219,14 +220,14 @@ function display_nav($table, $idx, $title, $has_update = false, $has_activation 
         $name = $media['Nm_Attachment'];
         $mime = $media['Cd_Mime_Type'];
         $size = $media['Nb_Bytes'];
-
         $out .='<p class="card-footer card-text"><a class="card-link" href="?action=file&do=read&file='. $file 
         . '&name=' . $name . '&mime=' . $mime . '&size=' . $size . '">
           <img src="assets/img/file.svg" height="20"/>' . $name . '</a>';
-        
-          $out .='<a class="card-link" href="?action=file&do=download&file='. $file 
-        . '&name=' . $name . '&mime=' . $mime . '&size=' . $size . '">
-          <img src="assets/img/download.svg" height="20"/>' . $name . '</a></p>';
+        if ($has_download == true) {
+            $out .='<a class="card-link" href="?action=file&do=download&file='. $file 
+          . '&name=' . $name . '&mime=' . $mime . '&size=' . $size . '">
+            <img src="assets/img/download.svg" height="20"/>' . $name . '</a></p>';
+        }
       }
     }
     #endregion

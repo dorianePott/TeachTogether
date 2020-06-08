@@ -12,7 +12,7 @@
     <div class="column" id="main">
         <?php include_once 'nav.php'; ?>
         <?= $msg?>
-        <form method="post" class="col-4 form-horizontal" role="form" action="?action=register" enctype="multipart/form-data">
+        <form method="post" class="container col-4 form-horizontal" role="form" action="?action=register" enctype="multipart/form-data">
 	        <h4>Register</h4>
 	        <div class="form-group" style="padding:14px;">
                 <label for="nmfirst">Your name (first/last)</label>
@@ -32,9 +32,15 @@
                 <br/>
                 <input id="repwd" placeholder="Repeat password" required type="password" name="repwd" class="form-control" value="<?=(isset($repwd) ? $pwd : '')?>">
 	        </div>
+            <div class="form-group">
+                <label>Choose an education</label> 
+                <div class="alert alert-warning" role="alert">⚠️Caution, once the account has been created, it will be impossible for you to change education.</div>
 
-            <?= display_select(read_all_education()); ?>
+                <?= display_select(read_all_education()); ?>
+            </div>
+
             <button id="btnRegister" name="do" class="btn btn-primary pull-right" type="submit" value="register">Register</button>  
     </div>
+    
 </body>
 </html>

@@ -45,7 +45,7 @@
   * @return array all record
   * @return false if error
   */
- function read_all_resource() {
+ function read_all_resources() {
     try {
         $resources = array();
         $query = 'SELECT * FROM `Tbl_Resource`';
