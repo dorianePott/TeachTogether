@@ -13,6 +13,7 @@
  $pwd = '';
  $repwd = '';
  $do = filter_input(INPUT_POST, 'do', FILTER_SANITIZE_STRING);
+ $error = '';
 
  if ($do == 'cancel') {
      header('Location: ?action=home');
@@ -45,10 +46,15 @@
                 $path = "user/";
                 $filename = generate_name($files['name']);
                 $size = $files['size'];
-                if (move_uploaded_file($files["tmp_name"], $path.$filename) == TRUE) {
-                    $pic = $path.$filename;
+                //control that it's an image before uploading it, check the filename's length, and that the name is alphanumeric
+                if (explode('/',$mime)[0] == 'image' && check_name(explode('.',$files['name'])[0], 0, 100, true)) {
+                    if (move_uploaded_file($files["tmp_name"], $path.$filename) == TRUE) {
+                        $pic = $path.$filename;
+                    } else {
+                        $error = "\n file error";
+                    }
                 } else {
-                    $error = "\n file error";
+                    $error ="<div class='text-danger'>verify that the file's name has < 100 characters, that they're alphanumeric, and that the file's an image, before uploading it.</div>";
                 }
             }
         }
@@ -63,6 +69,8 @@
      else if ($confirm != '') {
          if ($confirm == $user['Txt_Password_Hash']) {
             update_user_no_pwd($confirm, $first, $last, $email, $pic);
+            $user = read_user_by_email($_SESSION['email'])[0];
+
             $perm = read_user_perm($user['Id_User']);
             // save session
             $_SESSION['email'] = $email;

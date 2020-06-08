@@ -11,6 +11,7 @@
 </head>
 <body>
     <form action="?action=settings" method="post" class="container" enctype="multipart/form-data">
+    <?= isset($error) ? $error : '' ?>
     <div class="row"><div class="col">
     <div class="input-group">
         <h5>First/Last Name</h5>

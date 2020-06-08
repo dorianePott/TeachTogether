@@ -11,6 +11,7 @@
 <body>
     <article class="container">
     <h2>Profile</h2>
+    <?= isset($error) ? $error : '' ?>
     <h4>Lessons posted <?= (isset($nm_edu)) ? $nm_edu : '' ?></h4>
     <nav class="card" style="overflow: auto; float:left; height:50%;" >
         <?= display_nav($resources, 'Id_Resource', 'Nm_Resource')?>

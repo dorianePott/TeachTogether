@@ -48,10 +48,17 @@
                         $path = DEFAULT_DIR;
                         $filename = generate_name($files['name'][$i]);
                         $size = $files['size'][$i];
-                        if (move_uploaded_file($files["tmp_name"][$i], $path.$filename) == TRUE) {
-                            create_attachment($size, $mime, $files['name'][$i], $filename, $id_resource);
+                        if (check_name(explode('.',$files['name'][$i])[0], 0, 100, true)) {
+                            if (move_uploaded_file($files["tmp_name"][$i], $path.$filename) == TRUE) {
+                                create_attachment($size, $mime, $files['name'][$i], $filename, $id_resource);
+                                header('Location: ?action=profile');
+                                exit();
+                                
+                            } else {
+                                $error = "\n file error";
+                            }
                         } else {
-                            $error = "\n file error";
+                            $error ="<div class='text-danger'>verify that the file's name has < 100 characters, that they're alphanumeric, and that the file's an image, before uploading it.</div>";
                         }
                     }
                 }
@@ -59,8 +66,6 @@
         }
      }
      #endregion
-     header('Location: ?action=profile');
-     exit();
 }
  else if (stripos($do, 'update') !== false) {
      $id = explode('-', $do);

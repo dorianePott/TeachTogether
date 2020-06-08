@@ -69,6 +69,33 @@
  }
 
  /**
+  * @return array all undeleted record
+  * @return false if error
+  */
+ function read_undeleted_resources() {
+    try {
+        $resources = array();
+        $query = 'SELECT * FROM `Tbl_Resource` WHERE `Is_Deleted` = 0;';
+        $db = connect();
+        $query = $db->prepare($query);
+        $query->execute();
+        $records = $query->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($records as $record) {
+            if (read_attachment_by_fk($record['Id_Resource']) != array()) {
+                $record['media'] = read_attachment_by_fk($record['Id_Resource']);
+            } else {
+                $record['media'] = array();
+            }
+            $resources[] = $record;
+        }
+        return $resources;
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return FALSE;
+    }
+ }
+
+ /**
   * get all informations linked to the specified resource
   * @param int resource's id
   * @return array all data
@@ -100,6 +127,7 @@
  }
 
  /**
+  * read all record for a specified module, but not the deleted one
   * @param int fk from Tbl_Module
   * @return array record
   * @return false if error
@@ -109,7 +137,7 @@
         $bind = array(
             ':fk' => $module
         );
-        $query = 'SELECT * FROM `Tbl_Resource` WHERE `Id_Module` = :fk';
+        $query = 'SELECT * FROM `Tbl_Resource` WHERE `Id_Module` = :fk AND `Is_Deleted` = 0';
         $db = connect();
         $query = $db->prepare($query);
         $query->execute($bind);
@@ -129,7 +157,7 @@
             ':fk' => $module,
             ':id' => $id
         );
-        $query = 'SELECT * FROM `Tbl_Resource` WHERE `Id_Module` = :fk AND `Id_User_Owner` = :id;';
+        $query = 'SELECT * FROM `Tbl_Resource` WHERE `Id_Module` = :fk AND `Id_User_Owner` = :id AND `Is_Deleted` = 0;';
         $db = connect();
         $query = $db->prepare($query);
         $query->execute($bind);

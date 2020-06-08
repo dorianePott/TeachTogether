@@ -1,14 +1,11 @@
 <?php
+/**
+ * @author Doriane Pott
+ * @version 1.0
+ * page for displaying and check file functions
+ */
 
 require_once 'model/const.php';
-
-#region const
-define('DEFAULT_DIR', 'storage/');
-define('MAX_FILE_SIZE', 5242880);  //5MB
-define('MAX_RESOURCE_SIZE', 73400320); //70MB
-define('ACCENT', 'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ');
-define('CORRECT_ACCENT', 'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
-#endregion
 
 /**
  * will check the size of all file
@@ -209,7 +206,7 @@ function display_nav($table, $idx, $title, $has_update = false, $has_activation 
           $out .= sprintf(($has_activation) ? '<td><button type="submit" class="btn btn-outline-secondary" value="deactivate-%d" name="do">Deactivate</button></td>' : '', $id);
         }
       }
-      // if it's not the id col
+      // if it's not the id col nor the status (delete or not) col
       else if (stripos(strtolower($key), 'id') === false && stripos(strtolower($key), 'creation') === false  && strpos(strtolower($key), 'media') === false) {
         $out .= sprintf('<p class="card-text" id="%s">%s</p>', $id, $value);
       }
@@ -250,14 +247,13 @@ function display_nav($table, $idx, $title, $has_update = false, $has_activation 
  * @return bool false if error in string
  */
 function check_name($string, $min_size, $max_size, $allow_number = false) {
-  
-    if($string){
-        if (!(strlen ($string) >= $min_size && strlen ($string) <= $max_size))
+  if($string){
+        if (!(strlen($string) < $min_size && strlen ($string) > $max_size))
             $flag = false;
         if (!$allow_number){
             //regular expression, get letter only
             $re = '/^[A-Za-z]+$/';
-            if(!preg_match($re, $text))
+            if(!preg_match($re, $string) === false)
                 return false;
         } else {
           //regular expression, get alphanumeric char
