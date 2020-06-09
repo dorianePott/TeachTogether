@@ -351,6 +351,7 @@
  }
 
  /**
+  * @param int attachement identifier
   * @return array record
   * @return false if error
   */
@@ -370,12 +371,17 @@
     }
  }
 
+ /**
+  * @param int identifier from the resource
+  * @return array record
+  * @return false if error
+  */
  function read_attachment_by_fk($fk) {
     try {
         $bind = array(
             ':fk' => $fk
         );
-        $query = "SELECT * FROM `Tbl_Attachment` WHERE `Id_Resource` = :fk";
+        $query = "SELECT * FROM `Tbl_Attachment` WHERE `Id_Resource` = :fk AND `Is_Deleted`=0";
         $db = connect();
         $query = $db->prepare($query);
     

@@ -36,7 +36,7 @@
 	        </div>
             <div class="form-group">
                 <label>Choose an education</label> 
-                <div class="alert alert-warning" role="alert">⚠️Caution, once the account has been created, it will be impossible for you to change education.</div>
+                <div class="alert alert-warning" role="alert">&#9888;Caution, once the account has been created, it will be impossible for you to change education.</div>
 
                 <?= display_select(read_all_education()); ?>
             </div>

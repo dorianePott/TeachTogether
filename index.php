@@ -36,7 +36,7 @@ function in_multi_array($element, $array){
     return false;
 }
 
-// invalid permission
+// verify permission
 if (!in_multi_array($action.'-view', $permissions)) {
     if (in_multi_array($action, $permissions)) {
         if (strpos($action, 'manage') == 0) {

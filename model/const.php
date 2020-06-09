@@ -19,6 +19,4 @@ define('IS_DELETED', 'deleted');
 define('DEFAULT_DIR', 'storage/');
 define('MAX_FILE_SIZE', 5242880);  //5MB
 define('MAX_RESOURCE_SIZE', 73400320); //70MB
-define('ACCENT', 'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ');
-define('CORRECT_ACCENT', 'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
 #endregion

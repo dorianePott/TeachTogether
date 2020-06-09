@@ -12,8 +12,12 @@
 <body>
     <form method="post" action="?action=manage-education" class="container">
     <div class="row"><div class="col">
-            <input name="name" value="<?= (isset($name)) ? $name : '' ?>" class="form-control" placeholder="education's name"/></div><div class="col">
-            <input name="link" value="<?= (isset($link)) ? $link : '' ?>" class="form-control" placeholder="education's link"/></div><div class="col">
+    
+        <label>name (100 char max)</label>
+        <input name="name" value="<?= (isset($name)) ? $name : '' ?>" class="form-control" placeholder="education's name"/></div><div class="col">
+        
+        <label>link (200 char max)</label>
+        <input name="link" value="<?= (isset($link)) ? $link : '' ?>" class="form-control" placeholder="education's link"/></div><div class="col">
     <?php
         if ($id != NULL) {
             echo '<button name="submit" value="update" type="submit" class="btn btn-warning">Update</button></div></div><br/>';
