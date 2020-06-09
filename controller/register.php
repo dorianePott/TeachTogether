@@ -7,6 +7,7 @@
  */
 require_once 'controller/function.php';
 require_once 'model/crud_module.php';
+require_once 'model/crud_user.php';
 require_once 'model/register.php';
 require_once 'view/nav.php';
 require_once 'view/register.php';

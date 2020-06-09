@@ -4,6 +4,11 @@
  * @version 1.0.0
  * Management page for modules
  */
+ if (read_all_education() == false) {
+    echo <<<NOEDUCATION
+    <div class="alert alert-danger">No education, please create one before doing anything</div>
+NOEDUCATION;
+ } else {
  $code = '';
  $name = '';
  $msg = '';
@@ -43,9 +48,10 @@
          $_SESSION['update'] = NULL;
          header('Location: ?action=manage-module');
       } else{
-         $msg .= '<br/> error with the server, please retry later';
+         $msg .= 'Error with the server, please retry later<br/>';
       }
    } else {
-      $msg .= '<br/>please check, the size of your input';
+      $msg .= 'Please check, the size of your input, and make sure that you have selected an education.';
    }
+}
 }

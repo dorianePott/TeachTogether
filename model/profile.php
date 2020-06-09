@@ -8,10 +8,14 @@
 
  $do = '';
  $do = filter_input(INPUT_POST, 'do', FILTER_SANITIZE_STRING);
- $education = read_user_by_email($_SESSION['email'])[0]['Id_Education'];
- $owner = read_user_by_email($_SESSION['email'])[0]['Id_User'];
- $resources = (read_resources_by_education($education, $owner));
- $own = (read_resources_by_education($education, $owner, true));
+ if (read_user_by_email($_SESSION['email']) != false) {
+    $education = read_user_by_email($_SESSION['email'])[0]['Id_Education'];
+    $owner = read_user_by_email($_SESSION['email'])[0]['Id_User'];
+ }
+ if (read_resources_by_education($education, $owner) != false) {
+    $resources = (read_resources_by_education($education, $owner));
+    $own = (read_resources_by_education($education, $owner, true));
+ }
  $name = "";
  $desc = "";
  $nm_module = '';
@@ -20,6 +24,9 @@
  $msg = '';
  if ($education != NULL) {
     $nm_edu = read_education_by_id($education)[0]['Nm_Education'];
+ } else {
+     header('Location: index.php?action=home');
+     exit();
  }
 
  if ($do == 'create') {

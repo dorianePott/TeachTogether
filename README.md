@@ -25,6 +25,11 @@ mysql> source structure.sql;
 
 4. Make sure that in your php.ini, the upload_max_filesize = 5M
 
+### Information
+1. the admin user of the site, can't be created by the register, you have to create it in the DB.
+
+2. I created a default one, named 'admin', with the mail: 'admin@teacher.com' and the password 'admin'.
+
 ## Authors
 - **Doriane Pott** ([doriane.pott@bluewin.ch](mailto:doriane.pott@bluewin.ch))
 
@@ -52,6 +57,12 @@ mysql> source structure.sql;
 3. Assurez-vous que le serveur a les droits d'écriture sur le dossier `storage`.
 
 4. Assurez-vous que dans votre fichier php.ini, la ligne avec upload_max_filesize, correspondent à upload_max_filesize = 5M
+
+
+### Information
+1. L'utilisateur administrateur du site ne peut pas être crée vie le register, vous devez le créer dans la base de données.
+
+2. J'en ai créé un par défaut, nommé 'admin', avec le mail : 'admin@teacher.com' et le mot de passe 'admin'.
 
 ## Auteurs
 - **Doriane Pott** ([doriane.pott@bluewin.ch](mailto:doriane.pott@bluewin.ch))

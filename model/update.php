@@ -66,7 +66,8 @@
  else if(stripos($do, 'delete') !== FALSE) {
     $attachment = explode('-', $do);
     $attachment = $attachment[1];
-    delete_attachment_by_id($attachment);
-    header("Location: ?action=update");
-    exit();
+    if(delete_attachment_by_id($attachment)){
+        header("Location: ?action=update");
+        exit();
+    }
  }

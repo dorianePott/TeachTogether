@@ -254,7 +254,7 @@ function check_name($string, $min_size, $max_size, $allow_number = false) {
         if ($allow_number == false){
             //regular expression, get letter only
             $re = '/^[A-Za-z]+$/';
-            if(!preg_match($re, $string) === false)
+            if(!preg_match($re, $string))
                 return false;
         } else {
           //regular expression, get alphanumeric char
@@ -268,4 +268,19 @@ function check_name($string, $min_size, $max_size, $allow_number = false) {
         return false;
     }
     return true;
+}
+
+/**
+ * @param int salt' length
+ * @return string salt
+ */
+function generate_salt($length=20){
+  $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  $rndStr='';
+  for ($i=0; $i < $length; $i++) { 
+      $idx = rand(0,61);
+      $char=$chars[$idx];
+      $rndStr.=$char;
+  }
+  return $rndStr;
 }

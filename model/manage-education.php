@@ -39,6 +39,6 @@
          create_education($name, $link);
       }
    } else {
-      $msg .= 'check input size';
+      $msg .= 'Please check, the size of your input';
    }
 }

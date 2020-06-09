@@ -11,7 +11,9 @@
 <body>
     <div class="column" id="main">
         <?php include_once 'nav.php'; ?>
-        <?= $msg?>
+        <?php if ($msg != '') {
+            echo '<div class="alert alert-danger" role="alert">'.$msg.'</div>';
+        }?>
         <form method="post" class="container col-4 form-horizontal" role="form" action="?action=register" enctype="multipart/form-data">
 	        <h4>Register</h4>
 	        <div class="form-group" style="padding:14px;">
@@ -30,7 +32,7 @@
                 <label for="pwd">Password</label>
                 <input id="pwd" placeholder="Enter password" required type="password" name="pwd" class="form-control" value="<?=(isset($pwd) ? $pwd : '')?>">
                 <br/>
-                <input id="repwd" placeholder="Repeat password" required type="password" name="repwd" class="form-control" value="<?=(isset($repwd) ? $pwd : '')?>">
+                <input id="repwd" placeholder="Repeat password" required type="password" name="repwd" class="form-control" value="<?=(isset($repwd) ? $repwd : '')?>">
 	        </div>
             <div class="form-group">
                 <label>Choose an education</label> 
